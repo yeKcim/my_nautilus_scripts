@@ -7,6 +7,7 @@
 * mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` instead of `${arg##*.}`
 * all texts in english (translations are difficult to maintain)
 * output ≠ input
+* utf-8 symbols in script names to be easiest to identify (←↑→↓⇐⇑⇒⇓↕↔↻↶↷…)
 
 ## I don't need
 

@@ -1,19 +1,24 @@
 # My Nautilus scripts
 
-I don't want $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS or NEMO equivalent in my scripts because i need a universal solution
+## I need
+
+* easy way to copy and adapt script for another need
+* notifications when there is errors (dependency or mime-type not supported)
+* mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` instead of `${arg##*.}`
+* all texts in english (translations are difficult to maintain)
+* output ≠ input
+
+## I don't need
+
+* $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS or NEMO equivalent because I need to be file-manager independent
+* Input box to ask how many, which orientation,…
 
 ## Less as possible
 
 * click
 * dependencies
 * long texts notifications
-
-## I need
-
-* easy way to copy and adapt script for another need
-* notifications when there is errors (dependency or 
-* mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` instead of `${arg##*.}`
-* all texts in english (translations are difficult to maintain)
+* subdirectories of scripts
 
 ## dependencies
 

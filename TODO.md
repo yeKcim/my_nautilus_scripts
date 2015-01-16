@@ -34,3 +34,5 @@
 - [ ] rotation all script in one or depends of type?
 - [ ] replace `pwd` by location of file
 - [ ] if script is long notify when finished
+- [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias?)
+- [ ] sh instead of bash

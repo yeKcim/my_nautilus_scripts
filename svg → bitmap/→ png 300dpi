@@ -1,0 +1,27 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Convert svg to png
+IFS="
+"
+
+# Dependency: inkscape
+for command in inkscape
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+resolution="300"
+for arg
+do
+	ext=${arg##*.}
+	if [ "$ext" == "svg" ] || [ "$ext" == "SVG" ] || [ "$ext" == "svgz" ] || [ "$ext" == "SVGZ" ]; then
+	    inkscape -d "$resolution" -e "${arg%.*}_${resolution}dpi.png" "$arg"
+	fi
+done

@@ -1,0 +1,28 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Rename file from exif
+IFS="
+"
+
+# Dependency: jhead
+for command in jhead
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+for arg
+do
+	date=$(jhead $arg|grep '^Date/Time')
+	date=$(echo ${date#*:} | sed -e "s/:/-/g"| sed -e "s/ /_/g" | sed -e "s/_//") # i know, it's bad
+	mv $arg ${date}_$arg
+done
+
+
+

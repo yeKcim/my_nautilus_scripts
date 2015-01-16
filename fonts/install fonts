@@ -1,0 +1,23 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# move fonts to ~/.fonts directory
+IFS="
+"
+
+if [[ ! -a ~/.fonts ]]; then
+	mkdir -p ~/.fonts
+fi
+
+for arg
+do
+	cp "$arg" ~/.fonts
+	# does script worked fine?
+	if [[ -f ~/.fonts/$arg ]]; then
+	   notify-send "\"$arg\" installed."
+	else  
+	   notify-send "Error: Cannot install \"$arg\"."
+	fi
+done

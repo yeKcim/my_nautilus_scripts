@@ -1,0 +1,26 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Convert svgz to svg 
+IFS="
+"
+
+# Dependency: gzip
+for command in gzip
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+for arg
+do
+	ext=${arg##*.}
+	if [ "$ext" == "svgz" ] || [ "$ext" == "SVGZ" ]; then
+	    gzip -S gz -d "$arg" -c >"${arg%.*}.svg"
+	fi
+done

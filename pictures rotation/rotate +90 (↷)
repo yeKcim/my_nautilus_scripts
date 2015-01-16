@@ -1,0 +1,24 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Rotate pictures
+IFS="
+"
+
+# Dependency: convert (imagemagick)
+for command in convert
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+angle="90"
+for arg
+do
+	    convert -rotate $angle "$arg" "${arg%.*}_$angle.${arg##*.}"
+done

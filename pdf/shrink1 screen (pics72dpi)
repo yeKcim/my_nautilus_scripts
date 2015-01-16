@@ -1,0 +1,54 @@
+#!/bin/bash
+# 2015-01-15 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Compress PDF
+IFS="
+"
+
+resolution="screen" # low resolution: images=72dpi
+#resolution="ebook" # medium resolution: images=150dpi
+#resolution="printer" # high resolution: images=300dpi
+#resolution="prepress" # highest resolution): images=300dpi
+
+for arg
+do
+	type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+	
+	case $type in
+		"pdf") sdevice="pdfwrite";;
+		"postscript") sdevice="pswrite";;
+		*) sdevice="no";;
+	esac
+
+	notify-send "$sdevice"
+
+	################################################
+	#        input file is pdf or postscript       #
+	################################################
+	if [ $sdevice != "no" ]; then
+		for command in gs # add here all dependencies only with space separator
+		do
+			################################################
+			#              Dependencies check              #
+			################################################
+			if [ ! $(which $command) ]; then
+				notify-send "Error: Could not find \"$command\" application."
+				exit 1
+			fi
+		done
+		################################################
+		#          Everything is ok, do the job        #
+		################################################
+		gs -sDEVICE=$sdevice -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$resolution -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$resolution.${arg##*.}" "$arg"
+		
+		# commande différente pour ps ? en tout cas ne fonctionne pas !
+
+	################################################
+	#        input mimetype is not supported       #
+	################################################
+	else
+		notify-send "Error: $arg mimetype is not supported"
+	fi
+done

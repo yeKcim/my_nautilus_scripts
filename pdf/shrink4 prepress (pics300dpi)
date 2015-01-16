@@ -1,0 +1,35 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Compress PDF
+IFS="
+"
+
+# Dependency: ghostscript
+for command in gs
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+#resolution="screen" # low resolution: images=72dpi
+#resolution="ebook" # medium resolution: images=150dpi
+#resolution="printer" # high resolution: images=300dpi
+resolution="prepress" # highest resolution): images=300dpi
+for arg
+do
+	ext=${arg##*.}
+	if [ "$ext" == "pdf" ] || [ "$ext" == "PDF" ] ; then
+		sdevice="pdfwrite"
+	elif [ "$ext" == "ps" ] || [ "$ext" == "PS" ]; then
+		sdevice="pswrite"
+	else
+		sdevice="pdfwrite"
+	fi
+	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$resolution -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$resolution.${arg##*.}" "$arg"
+done

@@ -1,0 +1,31 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Concatenate multiple pdf in one
+IFS="
+"
+
+# Dependency: pdftk
+for command in pdftk
+do
+	if [ ! $(which $command) ]
+	then
+		notify-send "Error: Could not find \"$command\" application."
+		exit 1
+	fi
+done
+
+arguments=""
+for arg
+do
+	ext=${arg##*.}
+	if [ "$ext" == "pdf" ] || [ "$ext" == "PDF" ]; then
+		arguments="$arguments \"$arg\""
+	fi
+done
+
+if [ -n "$arguments" ]; then
+	eval /usr/bin/pdftk $arguments cat output joined.pdf
+fi

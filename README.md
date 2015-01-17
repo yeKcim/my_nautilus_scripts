@@ -21,7 +21,7 @@
 * long texts notifications
 * subdirectories of scripts
 
-## dependencies
+## Dependencies check
 
 If the script works well with only one command for all mime-type, we could probably check for dependencies with this kind of code at the beginning of the script:
 
@@ -41,3 +41,7 @@ Eventually, if there is more than one dependency :
         done
 
 But, i need that all my nautilus script have the same structure (easiest to copy+modify to adapt to another need). So dependencies check will be done for each mime-type that need different softwares.
+
+## How to copy these files?
+    cd ~/.local/share/nautilus
+    git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts

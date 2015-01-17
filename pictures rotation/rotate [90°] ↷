@@ -6,7 +6,7 @@
 # Rotate pictures
 IFS="
 "
-
+var=$(echo "$0" | sed -n 's/.*\[\(.*\)°\].*/\1/p')
 # Dependency: convert (imagemagick)
 for command in convert
 do
@@ -17,7 +17,7 @@ do
 	fi
 done
 
-angle="90"
+angle="$var"
 for arg
 do
 	    convert -rotate $angle "$arg" "${arg%.*}_$angle.${arg##*.}"

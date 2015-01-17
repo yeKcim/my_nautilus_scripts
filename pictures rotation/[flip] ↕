@@ -6,7 +6,7 @@
 # Apply axial symetry to pictures
 IFS="
 "
-
+var=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 # Dependency: convert (imagemagick)
 for command in convert
 do
@@ -17,7 +17,7 @@ do
 	fi
 done
 
-action="flip"
+action="$var"
 for arg
 do
 	convert -"$action" "$arg" "${arg%.*}_$action.${arg##*.}"

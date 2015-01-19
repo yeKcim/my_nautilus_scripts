@@ -24,15 +24,23 @@
 - [ ] send a file to xbmc
 - [ ] display exif information
 
+## Fonts
+- [ ] → ttf
+- [ ] → odf
+- [ ] → eot
+- [ ] → woff
+- [ ] → svg
+- [ ] → webfont + css
+
 # Structure
 
 - [ ] videos rotation: if aconv doesn't work try another way
 - [ ] check if result is ok
-- [ ] dont use extension but mimetype _done in some pdf scripts_
+- [ ] dont use extension but mimetype **done in some pdf scripts**
 - [ ] what if selection of directory
-- [ ] replace `if [ ! $(which $command) ]\nthen` by `if [ ! $(which $command) ]; then` _done in some pdf and fonts scripts_
+- [ ] replace `if [ ! $(which $command) ]\nthen` by `if [ ! $(which $command) ]; then` **done in some pdf and fonts scripts**
 - [ ] rotation all script in one or depends of type?
 - [ ] replace `pwd` by location of file
 - [ ] if script is long notify when finished
-- [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias?)
+- [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias with ln -rs is possible but is that really good?) **done in some pictures rotate scripts**
 - [ ] sh instead of bash

@@ -3,22 +3,45 @@
 # Installation:
 	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
 	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Apply axial symetry to pictures
+# Rotate pictures
 IFS="
 "
-var=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
-# Dependency: convert (imagemagick)
-for command in convert
+action=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+
+for arg
 do
-	if [ ! $(which $command) ]
-	then
-		notify-send "Error: Could not find \"$command\" application."
-		exit 1
+	################################################
+	#          input mimetype is supported         #
+	################################################
+	type=$(mimetype -bM "$arg" | cut -d "/" -f1)
+	case $type in
+		"image") work="1";;
+		*) work="0";;
+	esac
+
+	if [ $work != "0" ]; then
+		################################################
+		#              Dependencies check              #
+		################################################
+		for command in convert # add here all dependencies only with space separator
+		do
+			if [ ! $(which $command) ]; then
+				notify-send "Error: Could not find \"$command\" application."
+				exit 1
+			fi
+		done
+		################################################
+		#          Everything is ok, do the job        #
+		################################################
+		convert -"$action" "$arg" "${arg%.*}_$action.${arg##*.}"
+
+	################################################
+	#        input mimetype is not supported       #
+	################################################
+	else
+		notify-send "Error: $arg mimetype is not supported"
 	fi
 done
 
-action="$var"
-for arg
-do
-	convert -"$action" "$arg" "${arg%.*}_$action.${arg##*.}"
-done
+	
+

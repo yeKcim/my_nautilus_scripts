@@ -10,16 +10,23 @@ IFS="
 #        notification depends of system        #
 ################################################
 function notif { 
-	if [ $(which notify-send) ]; then
-		notify-send "$1"
-	elif [ $(which zenity) ]; then
-		echo "message:$1" | zenity --notification --listen &
-	elif [ $(which kdialog) ]; then
-		kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-	elif [ $(which xmessage) ]; then
-		xmessage "$1" -timeout 5
-	else # should be better if check if the script is running in a prompt or x
-		printf "$1\n"
+	# the script is running in a term
+	if [ $(env | grep '^TERM') ]; then
+		printf "Notification: \"$1\"\n"
+	# in x, notifications
+	else
+		if [ $(which notify-send) ]; then
+			notify-send "$1"
+		elif [ $(which zenity) ]; then
+			echo "message:$1" | zenity --notification --listen &
+		elif [ $(which kdialog) ]; then
+			kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+		elif [ $(which xmessage) ]; then
+			xmessage "$1" -timeout 5
+		# You don't have notifications? I don't care, I need to tell you something!
+		else
+			echo "$1" > "$(basename $0)_notif.txt"
+		fi
 	fi
 }
 

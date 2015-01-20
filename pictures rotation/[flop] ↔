@@ -6,7 +6,24 @@
 # Rotate pictures
 IFS="
 "
-action=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+	if [ $(which notify-send) ]; then
+		notify-send "$1"
+	elif [ $(which zenity) ]; then
+		echo "message:$1" | zenity --notification --listen &
+	elif [ $(which kdialog) ]; then
+		kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+	elif [ $(which xmessage) ]; then
+		xmessage "$1" -timeout 5
+	else # should be better if check if the script is running in a prompt or x
+		printf "$1\n"
+	fi
+} 
+
+argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 
 for arg
 do
@@ -26,20 +43,20 @@ do
 		for command in convert # add here all dependencies only with space separator
 		do
 			if [ ! $(which $command) ]; then
-				notify-send "Error: Could not find \"$command\" application."
+				notif "Error: Could not find \"$command\" application."
 				exit 1
 			fi
 		done
 		################################################
 		#          Everything is ok, do the job        #
 		################################################
-		convert -"$action" "$arg" "${arg%.*}_$action.${arg##*.}"
+		convert -"$argfromscriptname" "$arg" "${arg%.*}_$argfromscriptname.${arg##*.}"
 
 	################################################
 	#        input mimetype is not supported       #
 	################################################
 	else
-		notify-send "Error: $arg mimetype is not supported"
+		notif "Error: $arg mimetype is not supported"
 	fi
 done
 

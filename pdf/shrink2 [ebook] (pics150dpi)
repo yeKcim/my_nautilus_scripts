@@ -1,0 +1,63 @@
+#!/bin/bash
+# 2015-01-15 - by yeKcim
+# Installation:
+	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Compress PDF
+IFS="
+"
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+	if [ $(which notify-send) ]; then
+		notify-send "$1"
+	elif [ $(which zenity) ]; then
+		echo "message:$1" | zenity --notification --listen &
+	elif [ $(which kdialog) ]; then
+		kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+	elif [ $(which xmessage) ]; then
+		xmessage "$1" -timeout 5
+	else # should be better if check if the script is running in a prompt or x
+		printf "$1\n"
+	fi
+}
+
+argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+
+for arg
+do
+	type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+	
+	case $type in
+		"pdf") work="pdfwrite";;
+		"postscript") work="ps2write";;
+		*) work="0";;
+	esac
+
+	################################################
+	#          input mimetype is supported         #
+	################################################
+	if [ $work != "0" ]; then
+		################################################
+		#              Dependencies check              #
+		################################################
+		for command in gs # add here all dependencies only with space separator
+		do
+			if [ ! $(which $command) ]; then
+				notif "Error: Could not find \"$command\" application."
+				exit 1
+			fi
+		done
+		################################################
+		#          Everything is ok, do the job        #
+		################################################
+		gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$argfromscriptname -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$argfromscriptname.${arg##*.}" "$arg"
+
+	################################################
+	#        input mimetype is not supported       #
+	################################################
+	else
+		notif "Error: $arg mimetype is not supported"
+	fi
+done

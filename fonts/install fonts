@@ -6,18 +6,59 @@
 # move fonts to ~/.fonts directory
 IFS="
 "
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+	if [ $(which notify-send) ]; then
+		notify-send "$1"
+	elif [ $(which zenity) ]; then
+		echo "message:$1" | zenity --notification --listen &
+	elif [ $(which kdialog) ]; then
+		kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+	elif [ $(which xmessage) ]; then
+		xmessage "$1" -timeout 5
+	else # should be better if check if the script is running in a prompt or x
+		printf "$1\n"
+	fi
+}
 
+################################################
+#  Create directory ~/.fonts if doesn't exist  #
+#         what if rights are not good?         #
+################################################
 if [[ ! -a ~/.fonts ]]; then
 	mkdir -p ~/.fonts
 fi
 
 for arg
 do
-	cp "$arg" ~/.fonts
-	# does script worked fine?
-	if [[ -f ~/.fonts/$arg ]]; then
-	   notify-send "\"$arg\" installed."
-	else  
-	   notify-send "Error: Cannot install \"$arg\"."
+	type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+	
+	case $type in
+		"x-font-ttf") work="1";;
+		"x-font-otf") work="1";;
+		*) work="0";;
+	esac
+	
+	################################################
+	#          input mimetype is supported         #
+	################################################
+	if [ $work != "0" ]; then
+		cp "$arg" ~/.fonts
+		# does script worked fine?
+		if [[ -f ~/.fonts/$arg ]]; then
+		   notif "\"$arg\" installed."
+		else  
+		   notif "Error: Cannot install \"$arg\"."
+		fi
+	################################################
+	#        input mimetype is not supported       #
+	################################################
+	else
+		notif "Error: $arg mimetype is not supported"
 	fi
+		
 done
+
+	

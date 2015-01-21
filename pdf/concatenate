@@ -1,8 +1,8 @@
 #!/bin/bash
 # 2015-01-14 - by yeKcim
 # Installation:
-	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
-	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
 # Concatenate multiple pdf in one
 IFS="
 "
@@ -10,34 +10,34 @@ IFS="
 #        notification depends of system        #
 ################################################
 function notif { 
-	# the script is running in a term
-	if [ $(env | grep '^TERM') ]; then
-		printf "Notification: \"$1\"\n"
-	# in x, notifications
-	else
-		if [ $(which notify-send) ]; then
-			notify-send "$1"
-		elif [ $(which zenity) ]; then
-			echo "message:$1" | zenity --notification --listen &
-		elif [ $(which kdialog) ]; then
-			kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-		elif [ $(which xmessage) ]; then
-			xmessage "$1" -timeout 5
-		# You don't have notifications? I don't care, I need to tell you something!
-		else
-			echo "$1" > "$(basename $0)_notif.txt"
-		fi
-	fi
+    # the script is running in a term
+    if [ $(env | grep '^TERM') ]; then
+        printf "Notification: \"$1\"\n"
+    # in x, notifications
+    else
+        if [ $(which notify-send) ]; then
+            notify-send "$1"
+        elif [ $(which zenity) ]; then
+            echo "message:$1" | zenity --notification --listen &
+        elif [ $(which kdialog) ]; then
+            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+        elif [ $(which xmessage) ]; then
+            xmessage "$1" -timeout 5
+        # You don't have notifications? I don't care, I need to tell you something!
+        else
+            echo "$1" > "$(basename $0)_notif.txt"
+        fi
+    fi
 }
 
 ################################################
 #               dependency check               #
 ################################################
 function depend_check {
-	if [ ! $(which $1) ]; then
-		notif "Error: Could not find \"$1\" application."
-		exit 1
-	fi
+    if [ ! $(which $1) ]; then
+        notif "Error: Could not find \"$1\" application."
+        exit 1
+    fi
 }
 
 ################################################
@@ -46,32 +46,32 @@ function depend_check {
 arguments="" #TODO: using "$@" could be easiest but seems to not work… ???
 for arg
 do
-	type=$(mimetype -bM "$arg" | cut -d "/" -f2)
-	
-	case $type in
-		"pdf")
-			work="pdf"
-			for depend in pdftk # add here all dependencies only with space separator
-			do
-				depend_check $depend
-			done
-			arg_with_path=$(readlink -f "$arg")
-			arguments="$arguments \"$arg_with_path\"" #TODO: doesn't work for files with "`" caractere in name
-			notif "$arguments"
-			;;
-			
-		*) work="0";;
-	esac
-	# input mimetype is not supported
+    type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+    
+    case $type in
+        "pdf")
+            work="pdf"
+            for depend in pdftk # add here all dependencies only with space separator
+            do
+                depend_check $depend
+            done
+            arg_with_path=$(readlink -f "$arg")
+            arguments="$arguments \"$arg_with_path\"" #TODO: doesn't work for files with "`" caractere in name
+            notif "$arguments"
+            ;;
+            
+        *) work="0";;
+    esac
+    # input mimetype is not supported
 done
 
 # inputs mimetype are supported
 if [[ $work != "0" ]]; then
-	if [ -n "$arguments" ]; then
-		eval pdftk "$arguments" cat output joined.pdf #TODO: check if exist, check rights
-	fi
+    if [ -n "$arguments" ]; then
+        eval pdftk "$arguments" cat output joined.pdf #TODO: check if exist, check rights
+    fi
 else
-	notif "Error: $arg mimetype is not supported"
-	exit 1
+    notif "Error: $arg mimetype is not supported"
+    exit 1
 fi
 

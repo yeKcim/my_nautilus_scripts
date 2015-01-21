@@ -46,3 +46,4 @@
 - [ ] sh instead of bash
 - [ ] Notifications: use `echo 'message:hello' | zenity --notification --listen` or `notify-send 'hello'` or `printf` or `xdialog` (depends of system) **done in some pictures rotate scripts**
 - [ ] use "$*" "$@"… and `readlink -f` 
+- [ ] always delete original file after backup name~ or like actually don't touch original?

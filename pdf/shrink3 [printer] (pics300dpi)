@@ -1,8 +1,8 @@
 #!/bin/bash
 # 2015-01-15 - by yeKcim
 # Installation:
-	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
-	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
 # Dependency: gs
 # Compress PDF
 IFS="
@@ -48,25 +48,25 @@ argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 
 for arg
 do
-	type=$(mimetype -bM "$arg" | cut -d "/" -f2) #TODO: test if file exist first
-	
-	case $type in
-		"pdf") work="pdfwrite";;
-		"postscript") work="ps2write";;
-		*) work="0";;
-	esac
+    type=$(mimetype -bM "$arg" | cut -d "/" -f2) #TODO: test if file exist first
+    
+    case $type in
+        "pdf") work="pdfwrite";;
+        "postscript") work="ps2write";;
+        *) work="0";;
+    esac
 
     # input mimetype is supported
-	if [ $work != "0" ]; then
-		for depend in gs # add here all dependencies only with space separator
+    if [ $work != "0" ]; then
+        for depend in gs # add here all dependencies only with space separator
         do
             depend_check $depend
         done
         #TODO: check if exist, check rights
-		#TODO: for shell usage output in $(pwd) instead of input directory
-		gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$argfromscriptname -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$argfromscriptname.${arg##*.}" "$arg"
+        #TODO: for shell usage output in $(pwd) instead of input directory
+        gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$argfromscriptname -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$argfromscriptname.${arg##*.}" "$arg"
     # input mimetype is not supported
-	else
-		notif "Error: $arg mimetype is not supported"
-	fi
+    else
+        notif "Error: $arg mimetype is not supported"
+    fi
 done

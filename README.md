@@ -42,6 +42,32 @@ Eventually, if there is more than one dependency :
 
 But, i need that all my nautilus script have the same structure (easiest to copy+modify to adapt to another need). So dependencies check will be done for each mime-type that need different softwares.
 
+# Notifications
+
+    ################################################
+    #        notification depends of system        #
+    ################################################
+    function notif { 
+        # the script is running in a term
+        if [ $(env | grep '^TERM') ]; then
+            printf "Notification: \"$1\"\n"
+        # in x, notifications
+        else
+            if [ $(which notify-send) ]; then
+                notify-send "$1"
+            elif [ $(which zenity) ]; then
+                echo "message:$1" | zenity --notification --listen &
+            elif [ $(which kdialog) ]; then
+                kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+            elif [ $(which xmessage) ]; then
+                xmessage "$1" -timeout 5
+            # You don't have notifications? I don't care, I need to tell you something!
+            else
+                echo "$1" > "$(basename $0)_notif.txt"
+            fi
+        fi
+    }
+
 ## How to copy these files?
     cd ~/.local/share/nautilus
     git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts

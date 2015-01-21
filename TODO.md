@@ -14,7 +14,8 @@
 - [x] rename from exif
 - [ ] purge exif
 - [ ] display exif information
-- [ ] png optimisation
+- [ ] png optimisation (optipng,…)
+- [ ] [progressive jpg](https://coderwall.com/p/ryzmaa/use-imagemagick-to-create-optimised-and-progressive-jpgs)
 
 ## Videos
 - [ ] download subtitle
@@ -43,7 +44,8 @@
 - [ ] replace `pwd` by location of file
 - [ ] if script is long notify when finished
 - [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias with ln -rs is possible but is that really good?) **done in some pictures rotate scripts**
-- [ ] sh instead of bash
-- [ ] Notifications: use `echo 'message:hello' | zenity --notification --listen` or `notify-send 'hello'` or `printf` or `xdialog` (depends of system) **done in some pictures rotate scripts**
-- [ ] use "$*" "$@"… and `readlink -f` 
+- [ ] sh instead of bash?
+- [ ] use *function notif* **done in some pictures rotate scripts**
+- [ ] use `$(readlink -f $*)`, `$(readlink -f $arg)` and `$(readlink -f $@)` or `$#` [doc](http://michel.mauny.net/sii/variables-shell.html)?
 - [ ] always delete original file after backup name~ or like actually don't touch original?
+

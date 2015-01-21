@@ -48,4 +48,4 @@
 - [ ] use *function notif* **done in some pictures rotate scripts**
 - [ ] use `$(readlink -f $*)`, `$(readlink -f $arg)` and `$(readlink -f $@)` or `$#` [doc](http://michel.mauny.net/sii/variables-shell.html)?
 - [ ] always delete original file after backup name~ or like actually don't touch original?
-
+- [ ] dependencies check in a function

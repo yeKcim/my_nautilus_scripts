@@ -3,6 +3,7 @@
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: pdftk
 # Concatenate multiple pdf in one
 IFS="
 "
@@ -57,7 +58,6 @@ do
             done
             arg_with_path=$(readlink -f "$arg")
             arguments="$arguments \"$arg_with_path\"" #TODO: doesn't work for files with "`" caractere in name
-            notif "$arguments"
             ;;
             
         *) work="0";;

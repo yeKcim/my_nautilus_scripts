@@ -44,4 +44,5 @@
 - [ ] if script is long notify when finished
 - [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias with ln -rs is possible but is that really good?) **done in some pictures rotate scripts**
 - [ ] sh instead of bash
-- [ ] Notifications: use `echo 'message:hello' | zenity --notification --listen` or `notify-send 'hello'` or `printf` or `xdialog` (depends of system)
+- [ ] Notifications: use `echo 'message:hello' | zenity --notification --listen` or `notify-send 'hello'` or `printf` or `xdialog` (depends of system) **done in some pictures rotate scripts**
+- [ ] use "$*" "$@"… and `readlink -f` 

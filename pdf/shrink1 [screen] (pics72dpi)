@@ -3,6 +3,7 @@
 # Installation:
 	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
 	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: gs
 # Compress PDF
 IFS="
 "
@@ -10,31 +11,44 @@ IFS="
 #        notification depends of system        #
 ################################################
 function notif { 
-	# the script is running in a term
-	if [ $(env | grep '^TERM') ]; then
-		printf "Notification: \"$1\"\n"
-	# in x, notifications
-	else
-		if [ $(which notify-send) ]; then
-			notify-send "$1"
-		elif [ $(which zenity) ]; then
-			echo "message:$1" | zenity --notification --listen &
-		elif [ $(which kdialog) ]; then
-			kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-		elif [ $(which xmessage) ]; then
-			xmessage "$1" -timeout 5
-		# You don't have notifications? I don't care, I need to tell you something!
-		else
-			echo "$1" > "$(basename $0)_notif.txt"
-		fi
-	fi
+    # the script is running in a term
+    if [ $(env | grep '^TERM') ]; then
+        printf "Notification: \"$1\"\n"
+    # in x, notifications
+    else
+        if [ $(which notify-send) ]; then
+            notify-send "$1"
+        elif [ $(which zenity) ]; then
+            echo "message:$1" | zenity --notification --listen &
+        elif [ $(which kdialog) ]; then
+            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+        elif [ $(which xmessage) ]; then
+            xmessage "$1" -timeout 5
+        # You don't have notifications? I don't care, I need to tell you something!
+        else
+            echo "$1" > "$(basename $0)_notif.txt"
+        fi
+    fi
 }
 
+################################################
+#               dependency check               #
+################################################
+function depend_check {
+    if [ ! $(which $1) ]; then
+        notif "Error: Could not find \"$1\" application."
+        exit 1
+    fi
+}
+
+################################################
+#                    script                    #
+################################################
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 
 for arg
 do
-	type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+	type=$(mimetype -bM "$arg" | cut -d "/" -f2) #TODO: test if file exist first
 	
 	case $type in
 		"pdf") work="pdfwrite";;
@@ -42,28 +56,16 @@ do
 		*) work="0";;
 	esac
 
-	################################################
-	#          input mimetype is supported         #
-	################################################
+    # input mimetype is supported
 	if [ $work != "0" ]; then
-		################################################
-		#              Dependencies check              #
-		################################################
-		for command in gs # add here all dependencies only with space separator
-		do
-			if [ ! $(which $command) ]; then
-				notif "Error: Could not find \"$command\" application."
-				exit 1
-			fi
-		done
-		################################################
-		#          Everything is ok, do the job        #
-		################################################
+		for depend in gs # add here all dependencies only with space separator
+        do
+            depend_check $depend
+        done
+        #TODO: check if exist, check rights
+		#TODO: for shell usage output in $(pwd) instead of input directory
 		gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$argfromscriptname -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$argfromscriptname.${arg##*.}" "$arg"
-
-	################################################
-	#        input mimetype is not supported       #
-	################################################
+    # input mimetype is not supported
 	else
 		notif "Error: $arg mimetype is not supported"
 	fi

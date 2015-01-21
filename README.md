@@ -6,6 +6,7 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 
 - [x] [pdf explode](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/explode)
 - [x] [pdf concatenate](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/concatenate)
+- [x] [pdf shrink screen](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink1%20%5Bscreen%5D%20(pics72dpi)), [pdf shrink ebook](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink2%20%5Bebook%5D%20(pics150dpi)), [pdf shrink printer](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink3%20%5Bprinter%5D%20(pics300dpi)) and [pdf shrink prepress](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink4%20%5Bprepress%5D%20(pics300dpi))
 
 ## I need
 

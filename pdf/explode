@@ -31,6 +31,20 @@ function notif {
 	fi
 }
 
+################################################
+#               dependency check               #
+################################################
+function depend_check {
+	if [ ! $(which $1) ]; then
+		notif "Error: Could not find \"$1\" application."
+		exit 1
+	fi
+}
+
+
+################################################
+#                    script                    #
+################################################
 directory=$(pwd)
 for arg
 do
@@ -39,32 +53,24 @@ do
 	case $type in
 		"pdf")
 			work="pdf"
-			################################################
-			#              Dependencies check              #
-			################################################
-			for command in pdftk # add here all dependencies only with space separator
+			for depend in pdftk # add here all dependencies only with space separator
 			do
-				if [ ! $(which $command) ]; then
-					notif "Error: Could not find \"$command\" application."
-					exit 1
-				fi
+				depend_check $depend
 			done ;;
 			
 		*) work="0";;
 	esac
 
-	################################################
-	#          input mimetype is supported         #
-	################################################
-	if [ $work != "0" ]; then
-		mkdir "${arg}_explode"
-		cd "${arg}_explode"
-		pdftk "$directory/$arg" burst
+	# input mimetype is supported
+	if [[ $work != "0" ]]; then
+		file_with_path=$(readlink -f "$arg")
+		filename=$(basename "$arg")
+		mkdir "$directory/${filename}_explode" #TODO: check if exist, check rights
+		cd "$directory/${filename}_explode"
+		pdftk "$file_with_path" burst
 		rm -f "doc_data.txt"
 		cd $directory
-	################################################
-	#        input mimetype is not supported       #
-	################################################
+	# input mimetype is not supported
 	else
 		notif "Error: $arg mimetype is not supported"
 	fi

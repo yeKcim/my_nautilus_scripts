@@ -3,8 +3,9 @@
 There is a lot of nautilus scripts all over the web. But a lot of these scripts are not working very well. No check for errors, no dependency error notification,… Some of them only works in nautilus, some others only in nemo… Some of them only works with files that not contained spaces… So I decided to write my own scripts, with functions, with my own rules,…
 
 Actually, just few scripts respect my rules (in my own scripts!), but I'm on it. In my defense, my rules evolve as I rewrite my old scripts.
-[x] [pdf explode](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/explode)
-[x] [pdf concatenate](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/concatenate)
+
+- [x] [pdf explode](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/explode)
+- [x] [pdf concatenate](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/concatenate)
 
 ## I need
 

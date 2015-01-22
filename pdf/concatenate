@@ -43,7 +43,12 @@ function depend_check {
 ################################################
 arguments="" #TODO: using "$@" could be easiest but seems to not work… ???
 
-#TODO: $# has to be > 1
+# check if input files > 1
+if (( $# <= "1" )); then 
+    notif "$# file selected, \"$(basename $0)\" needs at least 2 input files" 
+    exit 1
+fi
+
 for arg
 do
     type=$(mimetype -bM "$arg" | cut -d "/" -f2)

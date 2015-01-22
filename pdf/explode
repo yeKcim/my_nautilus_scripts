@@ -42,6 +42,12 @@ function depend_check {
 ################################################
 #                    script                    #
 ################################################
+# check if input files > 1
+if (( $# <= "0" )); then 
+    notif "$# file selected, \"$(basename $0)\" needs at least 1 input file" 
+    exit 1
+fi
+
 directory=$(pwd)
 for arg
 do

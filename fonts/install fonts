@@ -28,9 +28,15 @@ function notif {
 }
 
 ################################################
-#  Create directory ~/.fonts if doesn't exist  #
-#         what if rights are not good?         #
+#                    script                    #
 ################################################
+# check if input files > 1
+if (( $# <= "0" )); then 
+    notif "$# file selected, \"$(basename $0)\" needs at least 1 input file" 
+    exit 1
+fi
+
+#  Create directory ~/.fonts if doesn't exist, what if rights are not good?
 if [[ ! -a ~/.fonts ]]; then
 	mkdir -p ~/.fonts
 fi

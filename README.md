@@ -83,10 +83,19 @@ Example:
 
 Dependencies check will be done for each mime-type that need different softwares.
 
+## arguments number check
+
+    # check if input files > 1
+    if (( $# <= "1" )); then 
+        notif "$# file selected, \"$(basename $0)\" needs at least 2 input files" 
+        exit 1
+    fi
+
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)
 * [Structures de contrôle (fr)](http://aral.iut-rodez.fr/fr/sanchis/enseignement/bash/ar01s10.html)
+* [Opérateurs de comparaison (fr)](http://abs.traduc.org/abs-fr/ch07s03.html)
 
 ## How to copy these files?
     cd ~/.local/share/nautilus

@@ -47,11 +47,22 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
+# resolution?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+resolution=$argfromscriptname
 
+directory=$(pwd)
 for arg
 do
-    type=$(mimetype -bM "$arg" | cut -d "/" -f2) #TODO: test if file exist first
+
+    # input/output
+    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
+    input_filename=$(basename "$input")
+    dir_input=$(readlink -f $(dirname $input))
+    output_name="${input%.*}_$resolution.${input##*.}" #TODO: check if exist, check rights
+    [ $(env | grep '^TERM') ] && output="$directory/$output_name" || output="$output_name"
+
+    type=$(mimetype -bM "$input" | cut -d "/" -f2) #TODO: test if file exist first
     
     case $type in
         "pdf") work="pdfwrite";;
@@ -65,11 +76,13 @@ do
         do
             depend_check $depend
         done
-        #TODO: check if exist, check rights
-        #TODO: for shell usage output in $(pwd) instead of input directory
-        gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$argfromscriptname -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${arg%.*}_$argfromscriptname.${arg##*.}" "$arg"
+
+        cd $dir_input
+        gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$resolution -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$output_name" "$input_filename"
+        mv $output_name $directory
+        cd $directory
     # input mimetype is not supported
     else
-        notif "Error: \"$arg\" mimetype is not supported"
+        notif "Error: \"$input_filename\" mimetype is not supported"
     fi
 done

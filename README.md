@@ -37,7 +37,6 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 
 # Notifications
 
-    #!/bin/bash
     ################################################
     #        notification depends of system        #
     ################################################
@@ -61,12 +60,10 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 
 Example:
 
-    #!/bin/bash
     notif "Error: \"$arg\" mimetype is not supported"
 
 ## Dependencies check
 
-    #!/bin/bash
     ################################################
     #               dependency check               #
     ################################################
@@ -79,7 +76,6 @@ Example:
 
 Example:
 
-    #!/bin/bash
     for depend in pdftk convert # add here all dependencies only with space separator
     do
         depend_check $depend

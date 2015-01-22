@@ -51,7 +51,13 @@ fi
 directory=$(pwd)
 for arg
 do
-    type=$(mimetype -bM "$arg" | cut -d "/" -f2)
+    
+    # input/output
+    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg";
+    input_filename=$(basename "$input")
+    input_filename_with_path=$(readlink -f "$input")
+        
+    type=$(mimetype -bM "$input" | cut -d "/" -f2)
     
     case $type in
         "pdf")
@@ -66,15 +72,13 @@ do
 
     # input mimetype is supported
     if [[ $work != "0" ]]; then
-        file_with_path=$(readlink -f "$arg")
-        filename=$(basename "$arg")
-        mkdir "$directory/${filename}_explode" #TODO: check if exist, check rights
-        cd "$directory/${filename}_explode"
-        pdftk "$file_with_path" burst
+        mkdir "$directory/${input_filename}_explode" #TODO: check if exist, check rights
+        cd "$directory/${input_filename}_explode"
+        pdftk "$input_filename_with_path" burst
         rm -f "doc_data.txt"
         cd $directory
     # input mimetype is not supported
     else
-        notif "Error: \"$arg\" mimetype is not supported"
+        notif "Error: \"$input_filename\" mimetype is not supported"
     fi
 done

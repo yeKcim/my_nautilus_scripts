@@ -43,12 +43,13 @@ fi
 
 for arg
 do
-    #TODO: check if already exist, check rights…
+    # input/output
     [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
-    filename=$(basename "$input")
-    
+    input_filename=$(basename "$input")
+    output="~/.fonts/$input_filename" #TODO: check if already exist, check rights…
+
+    # mimetype
 	type=$(mimetype -bM "$input" | cut -d "/" -f2)
-	
 	case $type in
 		"x-font-ttf") work="1";;
 		"x-font-otf") work="1";;
@@ -59,12 +60,12 @@ do
 	if [ $work != "0" ]; then
 		cp "$input" ~/.fonts
 		# does script worked fine?
-		if [[ -f ~/.fonts/$filename ]]; then notif "\"$filename\" installed."
-		else notif "Error: Cannot install \"$filename\"."
+		if [[ -f $output ]]; then notif "\"$input_filename\" installed."
+		else notif "Error: Cannot install \"$input_filename\"."
 		fi
     # input mimetype is not supported
 	else
-		notif "Error: \"$filename\" mimetype is not supported"
+		notif "Error: \"$input_filename\" mimetype is not supported"
 	fi
-		
+
 done

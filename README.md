@@ -2,11 +2,16 @@
 
 There is a lot of nautilus scripts all over the web. But a lot of these scripts are not working very well. No check for errors, no dependency error notification,… Some of them only works in nautilus, some others only in nemo… Some of them only works with files that not contained spaces… So I decided to write my own scripts, with functions, with my own rules,…
 
-Actually, just few scripts respect my rules (in my own scripts!), but I'm on it. In my defense, my rules evolve as I rewrite my old scripts.
+Actually, just few scripts respect my rules (in my own scripts!), but I'm on it. In my defence, my rules evolve as I rewrite my old scripts.
 
-- [x] [pdf explode](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/explode)
-- [x] [pdf concatenate](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/concatenate)
-- [x] [pdf shrink screen](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink1%20%5Bscreen%5D%20(pics72dpi)), [pdf shrink ebook](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink2%20%5Bebook%5D%20(pics150dpi)), [pdf shrink printer](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink3%20%5Bprinter%5D%20(pics300dpi)) and [pdf shrink prepress](https://github.com/yeKcim/my_nautilus_scripts/blob/master/pdf/shrink4%20%5Bprepress%5D%20(pics300dpi))
+- [x] [fonts scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/fonts)
+- [x] [pdf scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pdf)
+- [ ] pictures background scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20background)
+- [ ] pictures rotation scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20rotation)
+- [ ] pictures scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures)
+- [ ] svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert)
+- [ ] svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20%E2%86%92%20bitmap)
+- [ ] videos scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/videos)
 
 ## I need
 

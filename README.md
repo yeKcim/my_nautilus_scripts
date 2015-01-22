@@ -23,6 +23,8 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 * utf-8 symbols in script names to be easiest to identify (←↑→↓⇐⇑⇒⇓↕↔↻↶↷…)
 * script have to work well in shell as in files managers
 
+![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png)
+
 ## I don't need
 
 * $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS or NEMO equivalent because I need to be file-manager independent
@@ -83,7 +85,7 @@ Example:
 
 Dependencies check will be done for each mime-type that need different softwares.
 
-## arguments number check
+## Arguments number check
 
     # check if input files > 1
     if (( $# <= "1" )); then 

@@ -2,6 +2,19 @@
 
 There is a lot of nautilus scripts all over the web. But a lot of these scripts are not working very well. No check for errors, no dependency error notification,… Some of them only works in nautilus, some others only in nemo… Some of them only works with files that not contained spaces… So I decided to write my own scripts, with functions, with my own rules,…
 
+## I need
+
+* easy way to copy and adapt script for another need
+* notifications (dependency errors or mime-type not supported)
+* mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` (or f1 or no cut…) instead of `${arg##*.}`
+* all texts in english (translations are difficult to maintain)
+* output ≠ input (another way could be `cp "$1" "$1~"`, I will think about it in near future), never erase input.
+* utf-8 symbols in script names to be easiest to identify (←↑→↓⇐⇑⇒⇓↕↔↻↶↷…)
+* script have to work well in shell as in files managers ⇒ no use of *$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS* or *NEMO* equivalent
+* Direct use: No input box to ask how many, which orientation,…
+
+![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png)
+
 Actually, just few scripts respect my rules (in my own scripts!), but I'm on it. In my defence, my rules evolve as I rewrite my old scripts.
 
 - [x] [fonts scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/fonts)
@@ -13,29 +26,12 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 - [ ] [svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20%E2%86%92%20bitmap)
 - [ ] [videos scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/videos)
 
-## I need
-
-* easy way to copy and adapt script for another need
-* notifications when there is errors (errors, dependency or mime-type not supported)
-* mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` (or f1 or no cut…) instead of `${arg##*.}`
-* all texts in english (translations are difficult to maintain)
-* output ≠ input (another way could be `cp "$1" "$1~"`, I will think about it in near future)
-* utf-8 symbols in script names to be easiest to identify (←↑→↓⇐⇑⇒⇓↕↔↻↶↷…)
-* script have to work well in shell as in files managers
-
-![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png)
-
-## I don't need
-
-* $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS or NEMO equivalent because I need to be file-manager independent
-* Input box to ask how many, which orientation,…
-
 ## Less as possible
 
 * click
 * dependencies
 * long texts notifications
-* subdirectories of scripts
+* subdirectories of subdirectories of scripts
 
 # Notifications
 

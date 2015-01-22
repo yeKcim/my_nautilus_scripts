@@ -12,18 +12,15 @@ IFS="
 ################################################
 function notif { 
     # the script is running in a term
-    if [ $(env | grep '^TERM') ]; then
-        printf "Notification: \"$1\"\n"
+    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
     # in x, notifications
     else
-        if [ $(which notify-send) ]; then
-            notify-send "$1"
+        if [ $(which notify-send) ]; then notify-send "$1"
         elif [ $(which zenity) ]; then
             echo "message:$1" | zenity --notification --listen &
         elif [ $(which kdialog) ]; then
             kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-        elif [ $(which xmessage) ]; then
-            xmessage "$1" -timeout 5
+        elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
         # You don't have notifications? I don't care, I need to tell you something!
         else
             echo "$1" > "$(basename $0)_notif.txt"
@@ -45,6 +42,8 @@ function depend_check {
 #                    script                    #
 ################################################
 arguments="" #TODO: using "$@" could be easiest but seems to not work… ???
+
+#TODO: $# has to be > 1
 for arg
 do
     type=$(mimetype -bM "$arg" | cut -d "/" -f2)
@@ -59,19 +58,20 @@ do
             arg_with_path=$(readlink -f "$arg")
             arguments="$arguments \"$arg_with_path\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
-            
-        *) work="0";;
+        *) work="0";; #TODO: if input is not pdf, it's probably possible to convert it in pdf first…
     esac
-    # input mimetype is not supported
+    
 done
 
 # inputs mimetype are supported
 if [[ $work != "0" ]]; then
     if [ -n "$arguments" ]; then
-        eval pdftk "$arguments" cat output joined.pdf #TODO: check if exist, check rights
+        [ $(env | grep '^TERM') ] && output="$(pwd)/joined.pdf" || output="joined.pdf"
+        eval pdftk "$arguments" cat output $output #TODO: check if exist, check rights
     fi
+# input mimetype is not supported
 else
-    notif "Error: $arg mimetype is not supported"
+    notif "Error: \"$arg\" mimetype is not supported"
     exit 1
 fi
 

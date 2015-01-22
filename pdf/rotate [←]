@@ -1,0 +1,76 @@
+#!/bin/bash
+# 2015-01-15 - by yeKcim
+# Installation:
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: pdftk
+# Rotate PDF
+IFS="
+"
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+    # the script is running in a term
+    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
+    # in x, notifications
+    else
+        if [ $(which notify-send) ]; then notify-send "$1"
+        elif [ $(which zenity) ]; then
+            echo "message:$1" | zenity --notification --listen &
+        elif [ $(which kdialog) ]; then
+            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+        elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
+        # You don't have notifications? I don't care, I need to tell you something!
+        else
+            echo "$1" > "$(basename $0)_notif.txt"
+        fi
+    fi
+}
+
+################################################
+#               dependency check               #
+################################################
+function depend_check {
+    if [ ! $(which $1) ]; then
+        notif "Error: Could not find \"$1\" application."
+        exit 1
+    fi
+}
+
+################################################
+#                    script                    #
+################################################
+argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+case $argfromscriptname in
+    "←") angle="west";;
+    "↑") angle="north";;
+    "→") angle="east";;
+    "↓") angle="south";;
+    *) angle="north";;
+esac
+
+for arg
+do
+    filename=$(basename "$arg")
+    [ $(env | grep '^TERM') ] && { input=$(readlink -f "$arg"); output="$(pwd)/${filename%.*}_$angle.${filename##*.}"; } || { input="$arg"; output="${arg%.*}_$angle.${arg##*.}"; }
+    type=$(mimetype -bM "$input" | cut -d "/" -f2) #TODO: test if file exist first
+    
+    case $type in
+        "pdf") work="1";;
+        *) work="0";;
+    esac
+
+    # input mimetype is supported
+    if [ $work != "0" ]; then
+        for depend in pdftk # add here all dependencies only with space separator
+        do
+            depend_check $depend
+        done
+        #TODO: check if exist, check rights
+        pdftk "$input" cat 1-end$angle output "$output"
+    # input mimetype is not supported
+    else
+        notif "Error: \"$arg\" mimetype is not supported"
+    fi
+done

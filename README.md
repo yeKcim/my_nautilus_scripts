@@ -22,8 +22,8 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 - [ ] [pictures background scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20background)
 - [ ] [pictures rotation scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20rotation)
 - [ ] [pictures scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures)
-- [ ] [svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert)
-- [ ] [svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20%E2%86%92%20bitmap)
+- [x] [svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert)
+- [ ] [svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20export)
 - [ ] [videos scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/videos)
 
 ## Less as possible

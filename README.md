@@ -37,24 +37,25 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
     ################################################
     function notif { 
         # the script is running in a term
-        if [ $(env | grep '^TERM') ]; then
-            printf "Notification: \"$1\"\n"
+        if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
         # in x, notifications
         else
-            if [ $(which notify-send) ]; then
-                notify-send "$1"
+            if [ $(which notify-send) ]; then notify-send "$1"
             elif [ $(which zenity) ]; then
                 echo "message:$1" | zenity --notification --listen &
             elif [ $(which kdialog) ]; then
                 kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-            elif [ $(which xmessage) ]; then
-                xmessage "$1" -timeout 5
+            elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
             # You don't have notifications? I don't care, I need to tell you something!
             else
                 echo "$1" > "$(basename $0)_notif.txt"
             fi
         fi
     }
+
+Example:
+
+    notif "Error: \"$arg\" mimetype is not supported"
 
 ## Dependencies check
 
@@ -68,7 +69,7 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
         fi
     }
 
-Use:
+Example:
 
     for depend in pdftk convert # add here all dependencies only with space separator
     do
@@ -80,6 +81,7 @@ Dependencies check will be done for each mime-type that need different softwares
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)
+* [Structures de contrôle (fr)](http://aral.iut-rodez.fr/fr/sanchis/enseignement/bash/ar01s10.html)
 
 ## How to copy these files?
     cd ~/.local/share/nautilus

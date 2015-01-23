@@ -7,6 +7,7 @@
 - [ ] pdf extract text, extract pictures
 - [ ] display mime-type information
 - [ ] LaTeX
+- [ ] cbr/cbz
 
 ## Pictures
 - [ ] autorotate pictures (apply exif + delete exif rotation)

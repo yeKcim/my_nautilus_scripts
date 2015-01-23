@@ -61,7 +61,7 @@ directory=$(pwd)
 for arg
 do
     # input/output
-    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
+    input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
     output="$directory/$output_name"

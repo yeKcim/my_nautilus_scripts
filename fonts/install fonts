@@ -44,7 +44,7 @@ fi
 for arg
 do
     # input/output
-    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
+    input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
 
     # mimetype

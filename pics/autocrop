@@ -53,7 +53,7 @@ directory=$(pwd)
 for arg
 do
     # input/output
-    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg";
+input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
     output="$directory/${input_filename%.*}_autocrop.${input_filename##*.}"
         

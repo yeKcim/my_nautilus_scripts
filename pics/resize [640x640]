@@ -1,0 +1,76 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: convert
+# Resize pictures
+IFS="
+"
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+    # the script is running in a term
+    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
+    # in x, notifications
+    else
+        if [ $(which notify-send) ]; then notify-send "$1"
+        elif [ $(which zenity) ]; then
+            echo "message:$1" | zenity --notification --listen &
+        elif [ $(which kdialog) ]; then
+            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+        elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
+        # You don't have notifications? I don't care, I need to tell you something!
+        else
+            echo "$1" > "$(basename $0)_notif.txt"
+        fi
+    fi
+}
+
+################################################
+#               dependency check               #
+################################################
+function depend_check {
+    if [ ! $(which $1) ]; then
+        notif "Error: Could not find \"$1\" application."
+        exit 1
+    fi
+}
+
+
+################################################
+#                    script                    #
+################################################
+# check if input files > 1
+if (( $# <= "0" )); then 
+    notif "$# file selected, \"$(basename $0)\" needs at least 1 input file" 
+    exit 1
+fi
+
+# size?
+argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+size=$(echo $argfromscriptname | cut -d "x" -f1)
+
+directory=$(pwd)
+for arg
+do
+    # input/output
+    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg";
+    input_filename=$(basename "$input")
+    [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}_$size.${input_filename##*.}" || output="${input%.*}_$size.${input##*.}";
+        
+    type=$(file --mime-type -b "$input" | cut -d "/" -f1)
+    
+    case $type in
+        "image") # input mimetype is supported
+            for depend in convert # add here all dependencies only with space separator
+            do
+                depend_check $depend
+            done
+            convert -resize "$size"x"$size" "$input" "$output" ;;
+            
+        *) # input mimetype is not supported
+            notif "Error: \"$input_filename\" mimetype is not supported" ;;
+    esac
+done

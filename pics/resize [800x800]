@@ -58,18 +58,14 @@ do
     # input/output
     [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg";
     input_filename=$(basename "$input")
-    [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}_$size.${input_filename##*.}" || output="${input%.*}_$size.${input##*.}";
+    output="$directory/${input_filename%.*}_$size.${input_filename##*.}"
         
     type=$(file --mime-type -b "$input" | cut -d "/" -f1)
     
     case $type in
         "image") # input mimetype is supported
-            for depend in convert # add here all dependencies only with space separator
-            do
-                depend_check $depend
-            done
+            depend_check convert
             convert -resize "$size"x"$size" "$input" "$output" ;;
-            
         *) # input mimetype is not supported
             notif "Error: \"$input_filename\" mimetype is not supported" ;;
     esac

@@ -57,31 +57,21 @@ case $argfromscriptname in
     *) angle="north";;
 esac
 
+directory=$(pwd)
 for arg
 do
     # input/output
     [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
     input_filename=$(basename "$input")
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
-    [ $(env | grep '^TERM') ] && output="$(pwd)/$output_name" || output="$output_name"
+    output="$directory/$output_name"
     
     type=$(file --mime-type -b "$input" | cut -d "/" -f2) #TODO: test if file exist first
     
-    case $type in
-        "pdf") work="1";;
-        *) work="0";;
+    case $type in    # input mimetype is supported
+        "pdf")
+            depend_check pdftk
+            pdftk "$input" cat 1-end$angle output "$output";; #TODO: check if exist, check rights
+        *) notif "Error: \"$input_filename\" mimetype is not supported" ;;
     esac
-
-    # input mimetype is supported
-    if [ $work != "0" ]; then
-        for depend in pdftk # add here all dependencies only with space separator
-        do
-            depend_check $depend
-        done
-        #TODO: check if exist, check rights
-        pdftk "$input" cat 1-end$angle output "$output"
-    # input mimetype is not supported
-    else
-        notif "Error: \"$input_filename\" mimetype is not supported"
-    fi
 done

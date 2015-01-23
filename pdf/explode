@@ -38,7 +38,6 @@ function depend_check {
     fi
 }
 
-
 ################################################
 #                    script                    #
 ################################################
@@ -51,7 +50,6 @@ fi
 directory=$(pwd)
 for arg
 do
-    
     # input/output
     [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg";
     input_filename=$(basename "$input")
@@ -60,25 +58,13 @@ do
     type=$(file --mime-type -b "$input" | cut -d "/" -f2)
     
     case $type in
-        "pdf")
-            work="pdf"
-            for depend in pdftk # add here all dependencies only with space separator
-            do
-                depend_check $depend
-            done ;;
-            
-        *) work="0";;
+        "pdf") # input mimetype is supported
+            depend_check pdftk 
+            mkdir "$directory/${input_filename}_explode" #TODO: check if exist, check rights
+            cd "$directory/${input_filename}_explode"
+            pdftk "$input_filename_with_path" burst
+            rm -f "doc_data.txt"
+            cd $directory ;;
+        *) notif "Error: \"$input_filename\" mimetype is not supported" ;;
     esac
-
-    # input mimetype is supported
-    if [[ $work != "0" ]]; then
-        mkdir "$directory/${input_filename}_explode" #TODO: check if exist, check rights
-        cd "$directory/${input_filename}_explode"
-        pdftk "$input_filename_with_path" burst
-        rm -f "doc_data.txt"
-        cd $directory
-    # input mimetype is not supported
-    else
-        notif "Error: \"$input_filename\" mimetype is not supported"
-    fi
 done

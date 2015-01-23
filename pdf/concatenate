@@ -60,10 +60,7 @@ do
     case $type in
         "pdf")
             work="pdf"
-            for depend in pdftk # add here all dependencies only with space separator
-            do
-                depend_check $depend
-            done
+            depend_check pdftk
             arguments="$arguments \"$input_filename_with_path\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
         *) 

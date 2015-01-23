@@ -55,7 +55,7 @@ do
     input_filename=$(basename "$input")
     [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}.svg" || output="${input_filename%.*}.svg"
         
-    type=$(mimetype -bM "$input" | cut -d "/" -f2)
+    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2)
     
     if [ "$type" == "gzip" ]; then
         work="1"

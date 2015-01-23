@@ -65,7 +65,7 @@ do
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
     [ $(env | grep '^TERM') ] && output="$(pwd)/$output_name" || output="$output_name"
     
-    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2) #TODO: test if file exist first
+    type=$(file --mime-type -b "$input" | cut -d "/" -f2) #TODO: test if file exist first
     
     case $type in
         "pdf") work="1";;

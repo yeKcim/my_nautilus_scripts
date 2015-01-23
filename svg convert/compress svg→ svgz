@@ -55,7 +55,7 @@ do
     input_filename=$(basename "$input")
     [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}.svgz" || output="${input_filename%.*}.svgz"
         
-    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2)
+    type=$(file --mime-type -b "$input" | cut -d "/" -f2)
     
     if [ "$type" == "svg+xml" ]; then
         work="1"

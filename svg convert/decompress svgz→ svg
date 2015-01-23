@@ -55,9 +55,10 @@ do
     input_filename=$(basename "$input")
     [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}.svg" || output="${input_filename%.*}.svg"
         
-    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2)
+    type=$(file --mime-type -b "$input" | cut -d "/" -f2)
+    typez=$(file --mime-type -bz "$input" | cut -d "/" -f2)
     
-    if [ "$type" == "gzip" ]; then
+    if [ "$type" == "gzip" ] && [ "$typez" == "svg+xml" ]; then
         work="1"
         for depend in gzip # add here all dependencies only with space separator
         do

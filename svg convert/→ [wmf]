@@ -70,7 +70,7 @@ do
     input_filename=$(basename "$input")
     [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}.$output_ext" || output="${input_filename%.*}.$output_ext"
         
-    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2)
+    type=$(file --mime-type -b "$input" | cut -d "/" -f2)
     
     if [ "$type" == "gzip" ] || [ "$type" == "svg+xml" ]; then
         work="1"

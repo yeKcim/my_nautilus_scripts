@@ -48,7 +48,7 @@ do
     input_filename=$(basename "$input")
 
     # mimetype
-    type=$(file -ib "$input"|cut -d ";" -f1|cut -d "/" -f2)
+    type=$(file --mime-type -b "$input" | cut -d "/" -f2)
     case $type in
         "x-font-ttf") work="1";;
         "x-font-otf") work="1";;

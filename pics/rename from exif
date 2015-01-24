@@ -1,0 +1,82 @@
+#!/bin/bash
+# 2015-01-14 - by yeKcim
+# Installation:
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: jhead
+# Rename file from exif
+# This script mv the original file!
+IFS="
+"
+################################################
+#        notification depends of system        #
+################################################
+function notif { 
+    # the script is running in a term
+    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
+    # in x, notifications
+    else
+        if [ $(which notify-send) ]; then notify-send "$1"
+        elif [ $(which zenity) ]; then
+            echo "message:$1" | zenity --notification --listen &
+        elif [ $(which kdialog) ]; then
+            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
+        elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
+        # You don't have notifications? I don't care, I need to tell you something!
+        else
+            echo "$1" > "$(basename $0)_notif.txt"
+        fi
+    fi
+}
+
+################################################
+#               dependency check               #
+################################################
+function depend_check {
+    if [ ! $(which $1) ]; then
+        notif "Error: Could not find \"$1\" application."
+        exit 1
+    fi
+}
+
+################################################
+#         do not overwrite with output         #
+################################################
+function do_not_overwrite {
+    out="$1"
+    while [[ -a "$out" ]]; do
+        when=$(date +%Y%m%d-%H:%M:%S)
+        [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+    done
+    echo "$out"
+}
+
+################################################
+#                    script                    #
+################################################
+# check if input files > 1
+if (( $# <= "0" )); then 
+    notif "$# file selected, \"$(basename $0)\" needs at least 1 input file" 
+    exit 1
+fi
+
+for arg
+do
+    # input/output
+    input=$(readlink -f "$arg")
+    directory="${input%/*}" # this script do not move the file to the current directory in shell
+    input_filename=$(basename "$input")
+    type=$(file --mime-type -b "$input" | cut -d "/" -f1)
+    
+    case $type in
+        "image") # input mimetype is supported
+            depend_check jhead
+            date=$(jhead $input|grep '^Date/Time')
+	        date=$(echo ${date#*:} | sed -e "s/:/-/g"| sed -e "s/ /_/g" | sed -e "s/_//") # i know, it's not optimized
+	        output=$(do_not_overwrite "$directory/${date}_$input_filename")
+	        [[ $date == "" ]] && notif "Error: \"$input_filename\" no exif date data" || mv "$input" "$output"
+            ;;
+        *) # input mimetype is not supported
+            notif "Error: \"$input_filename\" mimetype is not supported" ;;
+    esac
+done

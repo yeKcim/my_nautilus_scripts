@@ -89,6 +89,22 @@ Dependencies check will be done for each mime-type that need different softwares
         exit 1
     fi
 
+## Do not overwrite any file
+
+    ################################################
+    #         do not overwrite with output         #
+    ################################################
+    function do_not_overwrite {
+        out="$1"
+        while [[ -a "$out" ]]; do
+            when=$(date +%Y%m%d-%H:%M:%S)
+            [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+        done
+        echo "$out"
+    }
+
+Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
+
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)

@@ -39,6 +39,18 @@ function depend_check {
 }
 
 ################################################
+#         do not overwrite with output         #
+################################################
+function do_not_overwrite {
+    out="$1"
+    while [[ -a "$out" ]]; do
+        when=$(date +%Y%m%d-%H:%M:%S)
+        [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+    done
+    echo "$out"
+}
+
+################################################
 #                    script                    #
 ################################################
 # check if input files > 1
@@ -64,7 +76,7 @@ do
     input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
-    output="$directory/$output_name"
+    output=$(do_not_overwrite "$directory/$output_name")
     
     type=$(file --mime-type -b "$input" | cut -d "/" -f2) #TODO: test if file exist first
     

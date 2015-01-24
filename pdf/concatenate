@@ -39,6 +39,18 @@ function depend_check {
 }
 
 ################################################
+#         do not overwrite with output         #
+################################################
+function do_not_overwrite {
+    out="$1"
+    while [[ -a "$out" ]]; do
+        when=$(date +%Y%m%d-%H:%M:%S)
+        [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+    done
+    echo "$out"
+}
+
+################################################
 #                    script                    #
 ################################################
 # check if input files > 1
@@ -55,7 +67,7 @@ do
     input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
     input_filename_with_path=$(readlink -f "$input")
-    output="$directory/joined.pdf"
+    output=$(do_not_overwrite "$directory/joined.pdf")
     
     type=$(file --mime-type -b "$input" | cut -d "/" -f2)
 

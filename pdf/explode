@@ -39,6 +39,18 @@ function depend_check {
 }
 
 ################################################
+#         do not overwrite with output         #
+################################################
+function do_not_overwrite {
+    out="$1"
+    while [[ -a "$out" ]]; do
+        when=$(date +%Y%m%d-%H:%M:%S)
+        [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+    done
+    echo "$out"
+}
+
+################################################
 #                    script                    #
 ################################################
 # check if input files > 1
@@ -54,14 +66,15 @@ do
     input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
     input_filename_with_path=$(readlink -f "$input")
+    output_dir=$(do_not_overwrite "${input_filename}_explode")
         
     type=$(file --mime-type -b "$input" | cut -d "/" -f2)
     
     case $type in
         "pdf") # input mimetype is supported
             depend_check pdftk 
-            mkdir "$directory/${input_filename}_explode" #TODO: check if exist, check rights
-            cd "$directory/${input_filename}_explode"
+            mkdir "$directory/$output_dir" #TODO: check if exist, check rights
+            cd "$directory/$output_dir"
             pdftk "$input_filename_with_path" burst
             rm -f "doc_data.txt"
             cd $directory ;;

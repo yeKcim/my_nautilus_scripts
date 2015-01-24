@@ -43,5 +43,6 @@
 - [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias with ln -rs is possible but is that really good?) **done in some pictures rotate scripts**
 - [ ] sh instead of bash?
 - [ ] four spaces instead of tab
-- [ ] check if output already exist, if so, increment name
+- [ ] check if output already exist, if so, increment name **done in some pictures rotate scripts**
 - [ ] if a lot of files have bad mimetype, only display one global notif
+- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)

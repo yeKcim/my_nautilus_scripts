@@ -6,7 +6,7 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 
 * easy way to copy and adapt script for another need
 * notifications (dependency errors or mime-type not supported)
-* mime-type check with `mimetype -bM "$arg" | cut -d "/" -f2` (or f1 or no cut…) instead of `${arg##*.}`
+* mime-type check with `file --mime-type -b "$input" | cut -d "/" -f2` (or f1 or no cut…) instead of `${arg##*.}` (and instead of `mimetype -bM "$arg"`, file installed on more computers)
 * all texts in english (translations are difficult to maintain)
 * output ≠ input (another way could be `cp "$1" "$1~"`, I will think about it in near future), never erase input.
 * utf-8 symbols in script names to be easiest to identify (←↑→↓⇐⇑⇒⇓↕↔↻↶↷…)
@@ -19,10 +19,9 @@ Actually, just few scripts respect my rules (in my own scripts!), but I'm on it.
 
 - [x] [fonts scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/fonts)
 - [x] [pdf scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pdf)
-- [ ] [pictures background scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20background)
-- [ ] [pictures rotation scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures%20rotation)
-- [ ] [pictures scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures)
-- [x] [svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert)
+- [x] [pics](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pics)
+- [ ] [pictures](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pictures)
+- [x] [svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert) (some few things have to be updated to respect last guide lines)
 - [ ] [svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20export)
 - [ ] [videos scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/videos)
 
@@ -110,6 +109,7 @@ Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)
 * [Structures de contrôle (fr)](http://aral.iut-rodez.fr/fr/sanchis/enseignement/bash/ar01s10.html)
 * [Opérateurs de comparaison (fr)](http://abs.traduc.org/abs-fr/ch07s03.html)
+* [Quelques bonnes pratiques](http://ineumann.developpez.com/tutoriels/linux/bash-bonnes-pratiques/)
 
 ## How to copy these files?
     cd ~/.local/share/nautilus

@@ -4,6 +4,7 @@
 # Installation:
 	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
 	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: convert
 # Remove blank background in pictures
 IFS="
 "

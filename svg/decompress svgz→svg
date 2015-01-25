@@ -1,10 +1,11 @@
 #!/bin/bash
-# 2015-01-14 - by yeKcim
+# 2015-01-25 - by yeKcim
+# License: GNU General Public License V3, 29 June 2007
 # Installation:
-	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
-	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: inkscape
-# Convert svg
+    # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
+    # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
+# Dependency: gzip
+# Convert svgz to svg
 IFS="
 "
 ################################################
@@ -39,6 +40,18 @@ function depend_check {
 }
 
 ################################################
+#         do not overwrite with output         #
+################################################
+function do_not_overwrite {
+    out="$1"
+    while [[ -a "$out" ]]; do
+        when=$(date +%Y%m%d-%H:%M:%S)
+        [[ -f "$out" ]] && out="${out%.*}#$when.${out##*.}" || out="$out#$when"
+    done
+    echo "$out"
+}
+
+################################################
 #                    script                    #
 ################################################
 # check if input files > 1
@@ -47,44 +60,30 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-# conversion type?
-argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
-
-case $argfromscriptname in
-    "emf") formatout="M";;
-    "eps") formatout="E";;
-    "pdf") formatout="A";;
-    "svg simple") formatout="l";;
-    "wmf") formatout="m";;
-    *) formatout="A";;
-esac
-
-output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
-[ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
-
 directory="$(pwd)"
+mime_error=0; mime_error_file=""
 for arg
 do
     # input/output
-    [ $(env | grep '^TERM') ] && input=$(readlink -f "$arg") || input="$arg"
+    input=$(readlink -f "$arg")
     input_filename=$(basename "$input")
-    [ $(env | grep '^TERM') ] && output="$directory/${input_filename%.*}.$output_ext" || output="${input_filename%.*}.$output_ext"
-        
+    output=$(do_not_overwrite "$directory/${input_filename%.*}.svg")
+
     type=$(file --mime-type -b "$input" | cut -d "/" -f2)
+    typez=$(file --mime-type -bz "$input" | cut -d "/" -f2)    
     
-    if [ "$type" == "gzip" ] || [ "$type" == "svg+xml" ]; then
-        work="1"
-        for depend in inkscape # add here all dependencies only with space separator
-        do
-            depend_check $depend
-        done
-    else work="0"
-    fi
-    
-    # input mimetype is supported
-    if [[ $work != "0" ]]; then
-       inkscape -"$formatout" "$output" "$input"
-    # input mimetype is not supported
-    else notif "Error: \"$input_filename\" mimetype is not supported"
+    if [ "$type" == "gzip" ] && [ "$typez" == "svg+xml" ]; then
+        # input mimetype is supported
+        depend_check gzip
+        gzip -S gz -d "$input" -c >"$output"
+    else
+        ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
     fi
 done
+
+# notif mime errors
+if [[ $mime_error != 0 ]]; then
+    [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
+    [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files:$mime_error_file)"
+    [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
+fi

@@ -1,5 +1,6 @@
 #!/bin/bash
-# 2015-01-15 - by yeKcim
+# 2015-01-25 - by yeKcim
+# License: GNU General Public License V3, 29 June 2007
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it

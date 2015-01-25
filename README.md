@@ -15,15 +15,6 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 
 ![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png)
 
-Actually, just few scripts respect my rules (in my own scripts!), but I'm on it. In my defence, my rules evolve as I rewrite my old scripts.
-
-- [x] [fonts scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/fonts)
-- [x] [pdf scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pdf)
-- [x] [pics](https://github.com/yeKcim/my_nautilus_scripts/tree/master/pics)
-- [ ] [svg convert scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20convert) (some few things have to be updated to respect last guide lines)
-- [ ] [svg export scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/svg%20export)
-- [ ] [videos scripts](https://github.com/yeKcim/my_nautilus_scripts/tree/master/videos)
-
 ## Less as possible
 
 * click

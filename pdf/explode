@@ -60,6 +60,7 @@ if (( $# <= "0" )); then
 fi
 
 directory=$(pwd)
+mime_error=0; mime_error_file=""
 for arg
 do
     # input/output
@@ -78,6 +79,13 @@ do
             pdftk "$input_filename_with_path" burst
             rm -f "doc_data.txt"
             cd $directory ;;
-        *) notif "Error: \"$input_filename\" mimetype is not supported" ;;
+        *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac
 done
+
+# notif mime errors
+if [[ $mime_error != 0 ]]; then
+    [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
+    [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files: $mime_error_file)"
+    [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
+fi

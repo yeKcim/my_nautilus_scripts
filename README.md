@@ -104,6 +104,17 @@ Dependencies check will be done for each mime-type that need different softwares
 
 Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
 
+## Mimetype errors notification
+
+Avoid multiple notifications for mimetype errors:
+
+    # notif mime errors
+    if [[ $mime_error != 0 ]]; then
+        [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
+        [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files: $mime_error_file)"
+        [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
+    fi
+
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)

@@ -63,6 +63,7 @@ fi
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 size=$(echo $argfromscriptname | cut -d "x" -f1)
 
+mime_error=0; mime_error_file=""
 directory=$(pwd)
 for arg
 do
@@ -78,6 +79,13 @@ do
             depend_check convert
             convert -resize "$size"x"$size" "$input" "$output" ;;
         *) # input mimetype is not supported
-            notif "Error: \"$input_filename\" mimetype is not supported" ;;
+            ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac
 done
+
+# notif mime errors
+if [[ $mime_error != 0 ]]; then
+    [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
+    [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files: $mime_error_file)"
+    [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
+fi

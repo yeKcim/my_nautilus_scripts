@@ -65,7 +65,7 @@ argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 size=$(echo $argfromscriptname | cut -d "x" -f1)
 
 mime_error=0; mime_error_file=""
-directory=$(pwd)
+directory="$(pwd)"
 for arg
 do
     # input/output

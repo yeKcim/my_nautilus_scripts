@@ -70,7 +70,7 @@ case $argfromscriptname in
     *) angle="north";;
 esac
 
-directory=$(pwd)
+directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
 do

@@ -60,7 +60,7 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-directory=$(pwd)
+directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
 do

@@ -64,7 +64,7 @@ fi
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 resolution=$argfromscriptname
 
-directory=$(pwd)
+directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
 do

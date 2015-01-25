@@ -65,7 +65,7 @@ fuzz=$(echo $argfromscriptname | cut -d "=" -f2)
 color="white"
 
 mime_error=0; mime_error_file=""
-directory=$(pwd)
+directory="$(pwd)"
 for arg
 do
     # input/output

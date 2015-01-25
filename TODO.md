@@ -1,5 +1,15 @@
-# Scripts
+# Structure
+- [ ] check if result is ok
+- [ ] rotation all script in one or depends of type?
+- [ ] if script is long notify when finished
+- [x] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script
+- [ ] sh instead of bash?
+- [x] four spaces instead of tab
+- [x] check if output already exist, if so, increment name
+- [x] if a lot of files have bad mimetype, only display one global notif
+- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)# Scripts
 
+# Other scripts
 - [ ] diff between two files
 - [ ] pdfposter
 - [ ] clean dir (delete ~)
@@ -8,6 +18,7 @@
 - [ ] display mime-type information
 - [ ] LaTeX
 - [ ] cbr/cbz
+- [ ] send by mail
 
 ## Pictures
 - [ ] autorotate pictures (apply exif + delete exif rotation)
@@ -35,14 +46,3 @@
 - [ ] → svg
 - [ ] → webfont + css
 
-# Structure
-- [ ] check if result is ok
-- [ ] replace `if [ ! $(which $command) ]\nthen` by `if [ ! $(which $command) ]; then` **done in some pdf and fonts scripts**
-- [ ] rotation all script in one or depends of type?
-- [ ] if script is long notify when finished
-- [ ] when scripts are same except one variable (rotate 90-180-270 for example) add this parameter in the name of the script (alias with ln -rs is possible but is that really good?) **done in some pictures rotate scripts**
-- [ ] sh instead of bash?
-- [ ] four spaces instead of tab
-- [ ] check if output already exist, if so, increment name **done in some pictures rotate scripts**
-- [ ] if a lot of files have bad mimetype, only display one global notif
-- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)

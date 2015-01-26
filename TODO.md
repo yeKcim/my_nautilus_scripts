@@ -7,7 +7,11 @@
 - [x] four spaces instead of tab
 - [x] check if output already exist, if so, increment name
 - [x] if a lot of files have bad mimetype, only display one global notif
-- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)# Scripts
+- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)
+- [ ] [shell double dash](http://linuxfr.org/users/yekcim/journaux/mes-nautilus-scripts#comment-1585344)
+
+
+# Scripts
 
 # Other scripts
 - [ ] diff between two files

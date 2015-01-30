@@ -5,7 +5,7 @@
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: jhead
+# Dependency: exiftool
 # Rename file from exif
 # This script mv the original file!
 IFS="
@@ -62,7 +62,7 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-depend_check jhead
+depend_check exiftool
 
 mime_error=0; mime_error_file=""
 for arg
@@ -75,9 +75,8 @@ do
     
     case $type in
         "image") # input mimetype is supported
-            date_line=$(jhead $input|grep '^Date/Time')
-	        date=$(echo ${date_line#*:} | sed -e "s/:/-/1" -e "s/:/-/1" -e "s/ /_/g" -e "s/_//")
-	        output=$(do_not_overwrite "$directory/${date}_$input_filename")
+            date=$(exiftool -a -s -CreateDate "$input" | sed -n '1p' | awk -F ': ' '{print $2}' | sed -e "s/:/-/1" -e "s/:/-/1" -e "s/ /_/g")
+            output=$(do_not_overwrite "$directory/${date}_$input_filename")
 	        [[ $date == "" ]] && notif "Error: \"$input_filename\" no exif date data" || mv "$input" "$output"
             ;;
         *) # input mimetype is not supported

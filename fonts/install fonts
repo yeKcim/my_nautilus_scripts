@@ -13,7 +13,7 @@ IFS="
 ################################################
 function notif { 
     # the script is running in a term
-    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
+    if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename -- "$0") notification ####\n  ⇒  $1\n\n"
     # in x, notifications
     else
         if [ $(which notify-send) ]; then notify-send "$1"
@@ -24,7 +24,7 @@ function notif {
         elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
         # You don't have notifications? I don't care, I need to tell you something!
         else
-            echo "$1" > "$(basename $0)_notif.txt"
+            echo "$1" > "$(basename -- $0)_notif.txt"
         fi
     fi
 }
@@ -34,7 +34,7 @@ function notif {
 ################################################
 # check if input files > 1
 if (( $# <= "0" )); then 
-    notif "$# file selected, \"$(basename $0)\" needs at least 1 input file" 
+    notif "$# file selected, \"$(basename -- $0)\" needs at least 1 input file" 
     exit 1
 fi
 
@@ -47,11 +47,11 @@ mime_error=0; mime_error_file=""
 for arg
 do
     # input/output
-    input=$(readlink -f "$arg")
-    input_filename=$(basename "$input")
+    input=$(readlink -f -- "$arg")
+    input_filename=$(basename -- "$input")
 
     # mimetype
-    type=$(file --mime-type -b "$input" | cut -d "/" -f2)
+    type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     case $type in
         "x-font-ttf") work="1";;
         "x-font-otf") work="1";;
@@ -63,7 +63,7 @@ do
         if [[ -f ~/.fonts/$input_filename ]]; then
             notif "\"$input_filename\" already installed."
         else
-            cp "$input" ~/.fonts
+            cp -- "$input" ~/.fonts
             # does script worked fine?
             if [[ -f ~/.fonts/$input_filename ]]; then notif "\"$input_filename\" installed."
             else notif "Error: Cannot install \"$input_filename\"."

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # https://github.com/yeKcim/my_nautilus_scripts
 # License: GNU General Public License V3, 29 June 2007
 # Installation:
@@ -64,7 +63,7 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-# size?
+# format?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 format=$argfromscriptname
 
@@ -86,7 +85,7 @@ do
             if [ ! -d "${input_filename%.*}" ]; then
                 mkdir "${input_filename%.*}"
             fi
-            convert "$input" "$output" ;;
+            convert -- "$input" "$output" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

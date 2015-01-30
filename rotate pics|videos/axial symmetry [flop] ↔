@@ -5,8 +5,8 @@
 # Installation:
 	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
 	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: avconv (videos) or convert (pics)
-# axial symmetry videos or pics
+# Dependency: avconv
+# Rotate videos or pics
 IFS="
 "
 ################################################
@@ -61,14 +61,16 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-# Action?
+# Rotation?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 case $argfromscriptname in
-    "flip") rotationv="transpose=3,transpose=1" ;;
-    "flop") rotationv="transpose=0,transpose=1";;
-    *) rotationv="transpose=3,transpose=1";;
+    "90°")  rotationv="transpose=1";                action="rotate" ;;
+    "-90°") rotationv="transpose=2";                action="rotate" ;;
+    "180°") rotationv="transpose=1,transpose=1";    action="rotate" ;;
+    "flip") rotationv="transpose=3,transpose=1";    action="$argfromscriptname"  ;;
+    "flop") rotationv="transpose=0,transpose=1";    action="$argfromscriptname" ;;
+    *)      rotationv="transpose=2";                action="flip" ;;
 esac
-action=$argfromscriptname
 
 mime_error=0; mime_error_file=""
 directory="$(pwd)"
@@ -77,7 +79,7 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    output=$(do_not_overwrite "$directory/${input_filename%.*}_$action.${input_filename##*.}")
+    output=$(do_not_overwrite "$directory/${input_filename%.*}_$argfromscriptname.${input_filename##*.}")
     
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f1)
     
@@ -88,7 +90,8 @@ do
             
         "image") # input mimetype is supported
             depend_check convert
-            convert -"$action" -- "$input" "$output" ;;
+            [[ $action == "rotate" ]] && convert -$action ${argfromscriptname%°*} -- "$input" "$output" ||  convert -$action -- "$input" "$output"
+            ;;
 
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;

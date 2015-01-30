@@ -6,7 +6,6 @@
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
 # Dependency: exiftool
 # Delete all exif meta informations
-# This script mv the original file!
 IFS="
 "
 ################################################
@@ -77,7 +76,7 @@ do
 
     case $type in
         "image") # input mimetype is supported
-            exiftool -P -m -All=  "$input" -o "$output";;
+            exiftool -P -m -All= "$input" -o "$output";;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

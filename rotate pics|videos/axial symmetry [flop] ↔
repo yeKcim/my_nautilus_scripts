@@ -5,8 +5,8 @@
 # Installation:
 	# Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
 	# Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: convert
-# Rotate pictures
+# Dependency: avconv (videos) or convert (pics)
+# axial symmetry videos or pics
 IFS="
 "
 ################################################
@@ -61,11 +61,14 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-# size?
+# Action?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
+case $argfromscriptname in
+    "flip") rotationv="transpose=3,transpose=1" ;;
+    "flop") rotationv="transpose=0,transpose=1";;
+    *) rotationv="transpose=3,transpose=1";;
+esac
 action=$argfromscriptname
-
-depend_check convert
 
 mime_error=0; mime_error_file=""
 directory="$(pwd)"
@@ -79,8 +82,14 @@ do
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f1)
     
     case $type in
+        "video") # input mimetype is supported
+            depend_check avconv
+            avconv -i "$input" -vf "$rotationv" -strict experimental "$output";;
+            
         "image") # input mimetype is supported
-            convert -"$action" "$input" "$output" ;;
+            depend_check convert
+            convert -"$action" -- "$input" "$output" ;;
+
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

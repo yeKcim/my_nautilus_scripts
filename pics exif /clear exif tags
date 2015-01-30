@@ -61,7 +61,7 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
-depend_check convert
+depend_check exiftool
 
 mime_error=0; mime_error_file=""
 directory="$(pwd)"

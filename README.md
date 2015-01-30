@@ -55,18 +55,19 @@ Example:
     #               dependency check               #
     ################################################
     function depend_check {
-        if [ ! $(which $1) ]; then
-            notif "Error: Could not find \"$1\" application."
-            exit 1
-        fi
+        for arg
+        do
+            if [ ! $(which $arg) ]; then
+                notif "Error: Could not find \"$arg\" application."
+                exit 1
+            fi
+        done    
     }
 
 Example:
 
-    for depend in pdftk convert # add here all dependencies only with space separator
-    do
-        depend_check $depend
-    done
+        depend_check pdftk convert
+
 
 Dependencies check will be done for each mime-type that need different softwares.
 

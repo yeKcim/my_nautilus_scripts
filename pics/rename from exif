@@ -75,8 +75,8 @@ do
     
     case $type in
         "image") # input mimetype is supported
-            date=$(jhead $input|grep '^Date/Time')
-	        date=$(echo ${date#*:} | sed -e "s/:/-/g"| sed -e "s/ /_/g" | sed -e "s/_//") # i know, it's not optimized
+            date_line=$(jhead $input|grep '^Date/Time')
+	        date=$(echo ${date_line#*:} | sed -e "s/:/-/1" -e "s/:/-/1" -e "s/ /_/g" -e "s/_//")
 	        output=$(do_not_overwrite "$directory/${date}_$input_filename")
 	        [[ $date == "" ]] && notif "Error: \"$input_filename\" no exif date data" || mv "$input" "$output"
             ;;

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # https://github.com/yeKcim/my_nautilus_scripts
 # License: GNU General Public License V3, 29 June 2007
 # Installation:
@@ -34,10 +33,13 @@ function notif {
 #               dependency check               #
 ################################################
 function depend_check {
-    if [ ! $(which $1) ]; then
-        notif "Error: Could not find \"$1\" application."
-        exit 1
-    fi
+    for arg
+    do
+        if [ ! $(which $arg) ]; then
+            notif "Error: Could not find \"$arg\" application."
+            exit 1
+        fi
+    done    
 }
 
 ################################################

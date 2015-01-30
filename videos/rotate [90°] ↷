@@ -64,9 +64,10 @@ fi
 # Rotation?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 case $argfromscriptname in
-    "90°") rotation="1";;
-    "-90°") rotation="2";;
-    *) rotation="2";;
+    "90°") rotationv="transpose=1";;
+    "-90°") rotationv="transpose=2";;
+    "180°") rotationv="transpose=1,transpose=1";;
+    *) rotationv="transpose=2";;
 esac
 
 mime_error=0; mime_error_file=""
@@ -83,7 +84,7 @@ do
     case $type in
         "video") # input mimetype is supported
             depend_check avconv
-            avconv -i "$input" -vf "transpose=$rotation" -strict experimental "$output";;
+            avconv -i "$input" -vf "$rotationv" -strict experimental "$output";;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

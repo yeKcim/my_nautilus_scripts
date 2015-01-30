@@ -1,13 +1,17 @@
 #!/bin/bash
-# 2015-01-25 - by yeKcim
-# All my extensions: https://github.com/yeKcim/my_nautilus_scripts
+
+# https://github.com/yeKcim/my_nautilus_scripts
 # License: GNU General Public License V3, 29 June 2007
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
 # Dependency: exiftool
 # Rename file from exif
-# This script mv the original file!
+
+################################################
+#      This script mv the original file!       #
+################################################
+
 IFS="
 "
 ################################################

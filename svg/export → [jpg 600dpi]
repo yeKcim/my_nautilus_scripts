@@ -5,7 +5,7 @@
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: inkscape
+# Dependency: inkscape and convert (if output is jpg)
 # Export svg to bitmap
 IFS="
 "
@@ -61,6 +61,8 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
+depend_check inkscape
+
 # conversion type?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)dpi\].*/\1/p')
 format=$(echo $argfromscriptname | cut -d " " -f1)
@@ -89,6 +91,7 @@ do
         if [[ $format == "png" ]]; then
 	        inkscape -d "$resolution" -e "$output" "$input"        
         else
+            depend_check convert
             fifo_file="${output}_fifo.png"
 	        mkfifo "$fifo_file"
 	        inkscape -d "$resolution" -e "$fifo_file" "$input" < /dev/null &

@@ -65,6 +65,8 @@ fi
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 format=$argfromscriptname
 
+depend_check convert
+
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
@@ -78,7 +80,6 @@ do
     
     case $type in
         "image") # input mimetype is supported
-            depend_check convert
             if [[ $format == "jpg" ]] || [[ $format == "bmp" ]]; then
                 convert "$input" -background white -flatten "$output"
             else

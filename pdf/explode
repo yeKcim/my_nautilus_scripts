@@ -61,6 +61,8 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
+depend_check pdftk
+
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
@@ -75,7 +77,6 @@ do
     
     case $type in
         "pdf") # input mimetype is supported
-            depend_check pdftk 
             mkdir "$directory/$output_dir" #TODO: check if exist, check rights
             cd "$directory/$output_dir"
             pdftk "$input_filename_with_path" burst

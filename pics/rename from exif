@@ -62,6 +62,8 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
+depend_check jhead
+
 mime_error=0; mime_error_file=""
 for arg
 do
@@ -73,7 +75,6 @@ do
     
     case $type in
         "image") # input mimetype is supported
-            depend_check jhead
             date=$(jhead $input|grep '^Date/Time')
 	        date=$(echo ${date#*:} | sed -e "s/:/-/g"| sed -e "s/ /_/g" | sed -e "s/_//") # i know, it's not optimized
 	        output=$(do_not_overwrite "$directory/${date}_$input_filename")

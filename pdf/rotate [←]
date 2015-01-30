@@ -71,6 +71,8 @@ case $argfromscriptname in
     *) angle="north";;
 esac
 
+depend_check pdftk
+
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
@@ -80,12 +82,11 @@ do
     input_filename=$(basename -- "$input")
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
     output=$(do_not_overwrite "$directory/$output_name")
-    
+
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2) #TODO: test if file exist first
     
     case $type in    # input mimetype is supported
         "pdf")
-            depend_check pdftk
             pdftk "$input" cat 1-end$angle output "$output";; #TODO: check if exist, check rights
         *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

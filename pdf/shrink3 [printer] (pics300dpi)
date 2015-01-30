@@ -65,6 +65,8 @@ fi
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 resolution=$argfromscriptname
 
+depend_check gs
+
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
@@ -87,7 +89,6 @@ do
 
     # input mimetype is supported
     if [ $work != "0" ]; then
-        depend_check gs
         cd $dir_input
         gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$resolution -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$output_name" "$input_filename"
         mv $output_name $directory

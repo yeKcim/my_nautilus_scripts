@@ -61,6 +61,8 @@ if (( $# <= "1" )); then
     exit 1
 fi
 
+depend_check pdftk
+
 directory="$(pwd)"
 arguments=""
 for arg
@@ -76,7 +78,6 @@ do
     case $type in
         "pdf")
             work="pdf"
-            depend_check pdftk
             arguments="$arguments \"$input_filename_with_path\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
         *) 

@@ -75,6 +75,8 @@ esac
 output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
 [ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
 
+depend_check inkscape
+
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
 for arg
@@ -95,7 +97,6 @@ do
     fi
     
     if [[ $work != "0" ]]; then
-        depend_check inkscape
         inkscape -"$formatout" "$output" "$input"
     else
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""

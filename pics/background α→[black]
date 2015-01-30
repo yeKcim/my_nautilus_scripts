@@ -61,6 +61,8 @@ if (( $# <= "0" )); then
     exit 1
 fi
 
+depend_check convert
+
 # color?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 color=$argfromscriptname
@@ -78,7 +80,6 @@ do
     
     case $type in
         "image") # input mimetype is supported
-            depend_check convert
             convert "$input" -background $color -flatten "$output" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;

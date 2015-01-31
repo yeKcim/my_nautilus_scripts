@@ -64,16 +64,7 @@ Example: `notif "Error: \"$arg\" mimetype is not supported"`
 
 Example: `depend_check pdftk convert`
 
-
-Dependencies check will be done for each mime-type that need different softwares.
-
-## Arguments number check
-
-    # check if input files > 1
-    if (( $# <= "1" )); then 
-        notif "$# file selected, \"$(basename $0)\" needs at least 2 input files" 
-        exit 1
-    fi
+Dependencies check will be done for each mime-type that need different softwares if needed. If not check at the begining of script
 
 ## Do not overwrite any file
 
@@ -90,6 +81,22 @@ Dependencies check will be done for each mime-type that need different softwares
     }
 
 Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
+
+## Check if user has selected enough files
+
+    ################################################
+    #          check if input files > min          #
+    ################################################
+    function nb_files_check {
+        nb_files="$1"
+        min_nb_files="$2"
+        if (( $1 < $2 )); then 
+            [[ $2 == 1 ]] && notif "$1 file selected, \"$(basename -- $0)\" needs at least one input file" || notif "$1 file selected, \"$(basename -- $0)\" needs at least $2 input files" 
+            exit 1
+        fi 
+    }
+
+Example: `nb_files_check $# 2` for a script that need at least 2 inputs
 
 ## Mimetype errors notification
 

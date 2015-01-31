@@ -4,7 +4,7 @@
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo: copy this file in ~/.gnome2/nemo-scripts/ and chmod +x it
-# Dependency: unzip
+# Dependency: unzip or pdfimages
 # extract pics from opendocument or pdf
 IFS="
 "
@@ -77,7 +77,6 @@ function error_check {
         [[ $nb_error > 1 ]] && [[ $nb_error = $nb_files ]] && error_message="$error_message (All selected files)"
     notif "$error_message"
     fi
-    
 }
 
 ################################################
@@ -98,14 +97,25 @@ do
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
     case $type in # input mimetype is supported
-        "octet-stream") # nothing better to define opendocuments?
+        "octet-stream") # docx|xlsx
+            depend_check unzip mimetype
+            mime=$(mimetype -b "$input" | cut -d "." -f3)
+            case $mime in
+                    "wordprocessingml") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
+                    "spreadsheetml") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
+                    *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
+            esac ;;
+        "vnd.openxmlformats-officedocument.presentationml.presentation") # pptx
+            depend_check unzip
+            unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;
+        "vnd.oasis.opendocument.text"|"vnd.oasis.opendocument.presentation"|"vnd.oasis.opendocument.spreadsheet") # odt|odp|ods
             depend_check unzip
             unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
         "pdf")
             depend_check pdfimages
-            mkdir "$output_dir"
-            cd "$output_dir"
-            pdfimages -all "$input" "$input_filename" ;;
+            mkdir -- "$output_dir"
+            cd -- "$output_dir"
+            pdfimages -all -- "$input" "$input_filename" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

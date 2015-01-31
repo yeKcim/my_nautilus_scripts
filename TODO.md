@@ -23,6 +23,7 @@
 - [ ] LaTeX
 - [ ] cbr/cbz
 - [ ] send by mail
+- [ ] unoconv
 
 ## Pictures
 - [ ] autorotate pictures (apply exif + delete exif rotation)

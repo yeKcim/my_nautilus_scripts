@@ -31,7 +31,6 @@ function notif {
         fi
     fi
 }
-
 ################################################
 #               dependency check               #
 ################################################
@@ -44,7 +43,6 @@ function depend_check {
         fi
     done    
 }
-
 ################################################
 #         do not overwrite with output         #
 ################################################
@@ -56,7 +54,6 @@ function do_not_overwrite {
     done
     echo "$out"
 }
-
 ################################################
 #          check if input files > min          #
 ################################################
@@ -67,6 +64,23 @@ function nb_files_check {
         [[ $2 == 1 ]] && notif "$1 file selected, \"$(basename -- $0)\" needs at least one input file" || notif "$1 file selected, \"$(basename -- $0)\" needs at least $2 input files" 
         exit 1
     fi 
+}
+################################################
+#              error notifications             #
+################################################
+function error_check {
+    nb_files="$1"
+    error_message="Error: $2"
+    nb_error="$3"
+    name_error_files="$4"
+
+    if [[ $nb_error != 0 ]]; then
+        [[ $nb_error == 1 ]] && error_message="$error_message:$name_error_files"
+        [[ $nb_error > 1 ]] && [[ $nb_error < $nb_files ]] && error_message="$error_message ($nb_error/$nb_files files: $name_error_files)"
+        [[ $nb_error > 1 ]] && [[ $nb_error = $nb_files ]] && error_message="$error_message (All selected files)"
+    notif "$error_message"
+    fi
+    
 }
 
 ################################################
@@ -99,13 +113,9 @@ do
 	        [[ $date == "" ]] && notif "Error: \"$input_filename\" no exif date data" || mv "$input" "$output"
             ;;
         *) # input mimetype is not supported
-            ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
+            ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
+            ;;
     esac
 done
 
-# notif mime errors
-if [[ $mime_error != 0 ]]; then
-    [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
-    [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files:$mime_error_file)"
-    [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
-fi
+error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"

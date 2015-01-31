@@ -55,14 +55,21 @@ function do_not_overwrite {
 }
 
 ################################################
+#          check if input files > min          #
+################################################
+function nb_files_check {
+    nb_files="$1"
+    min_nb_files="$2"
+    if (( $1 < $2 )); then 
+        [[ $2 == 1 ]] && notif "$1 file selected, \"$(basename -- $0)\" needs at least one input file" || notif "$1 file selected, \"$(basename -- $0)\" needs at least $2 input files" 
+        exit 1
+    fi 
+}
+
+################################################
 #                    script                    #
 ################################################
-# check if input files > 1
-if (( $# <= "0" )); then 
-    notif "$# file selected, \"$(basename -- $0)\" needs at least 1 input file" 
-    exit 1
-fi
-
+nb_files_check $# 1
 depend_check convert
 
 directory="$(pwd)"

@@ -45,9 +45,7 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
         fi
     }
 
-Example:
-
-    notif "Error: \"$arg\" mimetype is not supported"
+Example: `notif "Error: \"$arg\" mimetype is not supported"`
 
 ## Dependencies check
 
@@ -64,9 +62,7 @@ Example:
         done    
     }
 
-Example:
-
-        depend_check pdftk convert
+Example: `depend_check pdftk convert`
 
 
 Dependencies check will be done for each mime-type that need different softwares.
@@ -99,12 +95,24 @@ Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
 
 Avoid multiple notifications for mimetype errors:
 
-    # notif mime errors
-    if [[ $mime_error != 0 ]]; then
-        [[ $mime_error == 1 ]] && notif "Error: $mime_error_file mimetype not supported"
-        [[ $mime_error > 1 ]] && [[ $mime_error < $# ]] && notif "Error: mimetype not supported ($mime_error/$# files: $mime_error_file)"
-        [[ $mime_error > 1 ]] && [[ $mime_error = $# ]] && notif "Error: Selected files mimetype not supported"
-    fi
+    ################################################
+    #              error notifications             #
+    ################################################
+    function error_check {
+        nb_files="$1"
+        error_message="Error: $2"
+        nb_error="$3"
+        name_error_files="$4"
+
+        if [[ $nb_error != 0 ]]; then
+            [[ $nb_error == 1 ]] && error_message="$error_message:$name_error_files"
+            [[ $nb_error > 1 ]] && [[ $nb_error < $nb_files ]] && error_message="$error_message ($nb_error/$nb_files files: $name_error_files)"
+            [[ $nb_error > 1 ]] && [[ $nb_error = $nb_files ]] && error_message="$error_message (All selected files)"
+        notif "$error_message"
+        fi
+    }
+
+Example: `error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"`
 
 ## Help check-list (for my own use)
 
@@ -113,6 +121,14 @@ Avoid multiple notifications for mimetype errors:
 * [Opérateurs de comparaison (fr)](http://abs.traduc.org/abs-fr/ch07s03.html)
 * [Quelques bonnes pratiques](http://ineumann.developpez.com/tutoriels/linux/bash-bonnes-pratiques/)
 
-## How to copy these files?
+## How to copy these files…
+
+### … in nautilus?
     cd ~/.local/share/nautilus
     git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
+
+### … in nemo?
+    cd ~/.gnome2/nemo-scripts/
+    git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
+
+Don't forget to chmod +x

@@ -97,12 +97,11 @@ do
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
     case $type in # input mimetype is supported
-        "octet-stream") # docx|xlsx
-            depend_check unzip mimetype
-            mime=$(mimetype -b "$input" | cut -d "." -f3)
-            case $mime in
-                    "wordprocessingml") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
-                    "spreadsheetml") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
+        "octet-stream") # can't find from mime-type use extension
+            case ${input##*.} in
+                    "docx") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
+                    "xlsx") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
+                    "odt"|"ods"|"odp") unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
                     *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
             esac ;;
         "vnd.openxmlformats-officedocument.presentationml.presentation") # pptx

@@ -77,7 +77,19 @@ function error_check {
         [[ $nb_error > 1 ]] && [[ $nb_error = $nb_files ]] && error_message="$error_message (All selected files)"
     notif "$error_message"
     fi
-    
+}
+################################################
+#      error write rights notifications        #
+################################################
+function write_rights_outdir_check {
+    out=$(readlink -f -- "$1")
+    outdir="${out%/*}"
+    error="0"
+    if [[ ! -w "$outdir" ]]; then
+        notif "Can't write in \"$outdir\", check rights"
+        error="1"
+    fi
+    return $error
 }
 
 ################################################

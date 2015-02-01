@@ -78,6 +78,19 @@ function error_check {
     notif "$error_message"
     fi
 }
+################################################
+#      error write rights notifications        #
+################################################
+function write_rights_outdir_check {
+    out=$(readlink -f -- "$1")
+    outdir="${out%/*}"
+    error="0"
+    if [[ ! -w "$outdir" ]]; then
+        notif "Can't write in \"$outdir\", check rights"
+        error="1"
+    fi
+    return $error
+}
 
 ################################################
 #                    script                    #
@@ -93,7 +106,9 @@ do
     input_filename=$(basename -- "$input")
     input_filename_with_path=$(readlink -f -- "$input")
     output_dir=$(do_not_overwrite "${input_filename%.*}_pics")
-        
+
+    write_rights_outdir_check "$output_dir"
+    
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
     case $type in # input mimetype is supported

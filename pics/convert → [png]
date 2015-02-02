@@ -117,6 +117,8 @@ do
         "image") # input mimetype is supported
             if [[ $format == "jpg" ]] || [[ $format == "bmp" ]]; then
                 convert "$input" -background white -flatten "$output"
+            elif [[ $format == "pdf" ]]; then
+                convert -compress jpeg "$input" "$output"
             else
                 convert "$input" "$output"
             fi ;;

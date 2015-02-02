@@ -136,7 +136,7 @@ do
             depend_check pdfimages
             mkdir -- "$output_dir"
             cd -- "$output_dir"
-            pdfimages -j -- "$input" "$input_filename" ;;
+            pdfimages -all -- "$input" "$input_filename" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

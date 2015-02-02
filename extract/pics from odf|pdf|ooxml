@@ -116,12 +116,19 @@ do
             case ${input##*.} in
                     "docx") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
                     "xlsx") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
+                    "pptx") unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;
                     "odt"|"ods"|"odp") unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
                     *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
             esac ;;
         "vnd.openxmlformats-officedocument.presentationml.presentation") # pptx
             depend_check unzip
             unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;
+        "vnd.openxmlformats-officedocument.wordprocessingml.document") # docx
+            depend_check unzip
+            unzip -j "$input" "word/media/*" -d "$output_dir" ;;        
+        "vnd.openxmlformats-officedocument.spreadsheetml.sheet") # xlsx
+            depend_check unzip
+            unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
         "vnd.oasis.opendocument.text"|"vnd.oasis.opendocument.presentation"|"vnd.oasis.opendocument.spreadsheet") # odt|odp|ods
             depend_check unzip
             unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
@@ -129,7 +136,7 @@ do
             depend_check pdfimages
             mkdir -- "$output_dir"
             cd -- "$output_dir"
-            pdfimages -all -- "$input" "$input_filename" ;;
+            pdfimages -j -- "$input" "$input_filename" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

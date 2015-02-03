@@ -107,7 +107,9 @@ do
     input_filename=$(basename -- "$input")
     input_filename_with_path=$(readlink -f -- "$input")
     output_dir=$(do_not_overwrite "${input_filename}_explode")
-        
+
+    write_rights_outdir_check "$output_dir"
+
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
     case $type in

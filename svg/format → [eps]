@@ -121,6 +121,8 @@ do
     input_filename=$(basename -- "$input")
     output=$(do_not_overwrite "$directory/${input_filename%.*}.$output_ext")
 
+    write_rights_outdir_check "$output"
+  
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     typez=$(file --mime-type -bz "$input" | cut -d "/" -f2)    
 

@@ -118,6 +118,8 @@ do
     output_name="${input_filename%.*}_$angle.${input_filename##*.}"
     output=$(do_not_overwrite "$directory/$output_name")
 
+    write_rights_outdir_check "$output"
+
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2) #TODO: test if file exist first
     
     case $type in    # input mimetype is supported

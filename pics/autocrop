@@ -108,6 +108,8 @@ input=$(readlink -f -- "$arg")
     output=$(do_not_overwrite "$directory/${input_filename%.*}_autocrop.${input_filename##*.}")
 
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f1)
+
+    write_rights_outdir_check "$output"
     
     case $type in
         "image") # input mimetype is supported

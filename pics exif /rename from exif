@@ -113,7 +113,9 @@ do
     directory="${input%/*}" # this script do not move the file to the current directory in shell
     input_filename=$(basename -- "$input")
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f1)
-    
+
+    write_rights_outdir_check "$input"
+      
     case $type in
         "image") # input mimetype is supported
             if [[ $jheadcommand == "1" ]]; then

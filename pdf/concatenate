@@ -108,6 +108,8 @@ do
     input_filename=$(basename -- "$input")
     input_filename_with_path=$(readlink -f -- "$input")
     output=$(do_not_overwrite "$directory/joined.pdf")
+
+    write_rights_outdir_check "$output"
     
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
 

@@ -107,6 +107,8 @@ do
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
 
+    write_rights_outdir_check "~/.fonts/"
+    
     # mimetype
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     case $type in

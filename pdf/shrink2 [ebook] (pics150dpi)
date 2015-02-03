@@ -114,6 +114,8 @@ do
     output_name=$(do_not_overwrite "$output_name")
     
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2) #TODO: test if file exist first
+
+    write_rights_outdir_check "$input" #TODO: in shell mv the input before gs if rights are pb
     
     case $type in
         "pdf") work="pdfwrite";;
@@ -124,6 +126,7 @@ do
     # input mimetype is supported
     if [ $work != "0" ]; then
         cd $dir_input
+        
         gs -sDEVICE=$work -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$resolution -dSAFER -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$output_name" "$input_filename"
         mv $output_name $directory
         cd $directory

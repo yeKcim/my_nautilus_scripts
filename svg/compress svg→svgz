@@ -107,6 +107,8 @@ do
     input_filename=$(basename -- "$input")
     output=$(do_not_overwrite "$directory/${input_filename%.*}.svgz")
 
+    write_rights_outdir_check "$output"
+  
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
     case $type in

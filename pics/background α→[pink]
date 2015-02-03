@@ -110,7 +110,9 @@ do
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
     output=$(do_not_overwrite "$directory/${input_filename%.*}_$color.${input_filename##*.}")
-    
+
+    write_rights_outdir_check "$output"
+      
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f1)
     
     case $type in

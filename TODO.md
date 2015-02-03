@@ -7,22 +7,29 @@
 - [x] four spaces instead of tab
 - [x] check if output already exist, if so, increment name
 - [x] if a lot of files have bad mimetype, only display one global notif
-- [ ] check rights before execute (write in dir, read input,…) and if file exists (in shell can input a file that not exist)
+- [ ] more checks
+    - [x] rights: write in output dir
+    - [ ] rights: read input
+    - [ ] if input exists (in shell can input a file that not exist)
+    - [x] if output already exist (don't overwrite)
+    - [ ] if output is done after execution
 - [x] [shell double dash](http://linuxfr.org/users/yekcim/journaux/mes-nautilus-scripts#comment-1585344)
-
+- [ ] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
+- [ ] progress bar (pv? dialog?)
 
 # Scripts
 
-# Other scripts
+# Misc scripts
 - [ ] diff between two files
 - [ ] pdfposter
 - [ ] clean dir (delete ~)
 - [ ] optical character recognition
-- [ ] pdf extract text, extract pictures
+- [ ] pdf extract text
+- [x] pdf extract pictures
 - [ ] display mime-type information
 - [ ] LaTeX
 - [ ] cbr/cbz
-- [ ] send by mail
+- [x] send by mail
 - [ ] unoconv
 
 ## Pictures
@@ -33,10 +40,11 @@
 - [ ] display exif information
 - [ ] png optimisation (optipng,…)
 - [ ] [progressive jpg](https://coderwall.com/p/ryzmaa/use-imagemagick-to-create-optimised-and-progressive-jpgs)
-- [ ] extract pictures from odp, odt,…
+- [x] extract pictures from odp, odt,…
 
 ## Videos
 - [ ] download subtitle
+- [ ] include subtitle
 - [ ] extract audio from video
 - [ ] convert video
 - [ ] concatenate video

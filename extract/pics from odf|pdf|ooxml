@@ -32,12 +32,8 @@ function notif {
 #               dependency check               #
 ################################################
 function depend_check {
-    for arg
-    do
-        if [ ! $(which $arg) ]; then
-            notif "Error: Could not find \"$arg\" application."
-            exit 1
-        fi
+    for arg; do
+		hash "$arg" 2>/dev/null || { notif >&2 "Error: Could not find \"$arg\" application."; exit 1; }
     done    
 }
 ################################################
@@ -113,7 +109,7 @@ do
     
     case $type in # input mimetype is supported
         "octet-stream") # can't find from mime-type use extension
-            case ${input##*.} in
+            case "${input##*.}" in
                     "docx") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
                     "xlsx") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
                     "pptx") unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;

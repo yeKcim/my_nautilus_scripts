@@ -14,17 +14,12 @@ IFS="
 function notif { 
     # the script is running in a term
     if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename -- "$0") notification ####\n  ⇒  $1\n\n"
-    # in x, notifications
-    else
-        if [ $(which notify-send) ]; then notify-send "$1"
-        elif [ $(which zenity) ]; then
-            echo "message:$1" | zenity --notification --listen &
-        elif [ $(which kdialog) ]; then
-            kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-        elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
-        # You don't have notifications? I don't care, I need to tell you something!
-        else
-            echo "$1" > "$(basename -- $0)_notif.txt"
+    else # in x, notifications
+		if   hash notify-send 2>/dev/null; then notify-send "$1"
+		elif hash zenity 2>/dev/null; then { echo "message:$1" | zenity --notification --listen & }
+		elif hash kdialog 2>/dev/null; then { kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 & }
+		elif hash xmessage 2>/dev/null; then xmessage "$1" -timeout 5
+        else echo "$1" > "$(basename -- $0)_notif.txt"
         fi
     fi
 }

@@ -29,18 +29,13 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
     ################################################
     function notif { 
         # the script is running in a term
-        if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename "$0") notification ####\n  ⇒  $1\n\n"
-        # in x, notifications
-        else
-            if [ $(which notify-send) ]; then notify-send "$1"
-            elif [ $(which zenity) ]; then
-                echo "message:$1" | zenity --notification --listen &
-            elif [ $(which kdialog) ]; then
-                kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 &
-            elif [ $(which xmessage) ]; then xmessage "$1" -timeout 5
-            # You don't have notifications? I don't care, I need to tell you something!
-            else
-                echo "$1" > "$(basename $0)_notif.txt"
+        if [ $(env | grep '^TERM') ]; then printf "\n#### $(basename -- "$0") notification ####\n  ⇒  $1\n\n"
+        else # in x, notifications
+		    if   hash notify-send 2>/dev/null; then notify-send "$1"
+		    elif hash zenity 2>/dev/null; then { echo "message:$1" | zenity --notification --listen & }
+		    elif hash kdialog 2>/dev/null; then { kdialog --title "$1" --passivepopup "This popup will disappear in 5 seconds" 5 & }
+		    elif hash xmessage 2>/dev/null; then xmessage "$1" -timeout 5
+            else echo "$1" > "$(basename -- $0)_notif.txt"
             fi
         fi
     }
@@ -53,12 +48,8 @@ Example: `notif "Error: \"$arg\" mimetype is not supported"`
     #               dependency check               #
     ################################################
     function depend_check {
-        for arg
-        do
-            if [ ! $(which $arg) ]; then
-                notif "Error: Could not find \"$arg\" application."
-                exit 1
-            fi
+        for arg; do
+		    hash "$arg" 2>/dev/null || { notif >&2 "Error: Could not find \"$arg\" application."; exit 1; }
         done    
     }
 
@@ -136,6 +127,10 @@ Example: `error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_f
 
 ### … in nemo?
     cd ~/.gnome2/nemo-scripts/
+    git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
+    
+### … in caja?
+    cd ~/.config/caja/scripts/
     git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
 
 Don't forget to chmod +x

@@ -14,7 +14,7 @@
     - [x] if output already exist (don't overwrite)
     - [ ] if output is done after execution
 - [x] [shell double dash](http://linuxfr.org/users/yekcim/journaux/mes-nautilus-scripts#comment-1585344)
-- [ ] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
+- [x] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
 - [ ] progress bar (pv? dialog?)
 - [ ] home computer pdfimages 0.26.5 (ubuntu 14.10) / work computer 0.24.5 (ubuntu 14.04), -all option not available at work…
 

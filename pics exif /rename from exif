@@ -90,10 +90,12 @@ function write_rights_outdir_check {
 #                    script                    #
 ################################################
 nb_files_check $# 1
-if [ ! $(which jhead) ]; then
+
+if hash jhead 2>/dev/null; then
+    jheadcommand="1"
+else
     depend_check exiftool
     jheadcommand="0"
-else jheadcommand="1"
 fi
 
 mime_error=0; mime_error_file=""

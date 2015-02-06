@@ -97,7 +97,6 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    input_filename_with_path=$(readlink -f -- "$input")
     output_dir=$(do_not_overwrite "${input_filename}_explode")
 
     write_rights_outdir_check "$output_dir"
@@ -108,7 +107,7 @@ do
         "pdf") # input mimetype is supported
             mkdir "$directory/$output_dir" #TODO: check if exist, check rights
             cd "$directory/$output_dir"
-            pdftk "$input_filename_with_path" burst
+            pdftk "$input" burst
             rm -f "doc_data.txt"
             cd $directory ;;
         *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;

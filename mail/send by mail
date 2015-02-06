@@ -98,7 +98,6 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    input_filename_with_path=$(readlink -f -- "$input")
     output=$(do_not_overwrite "$directory/joined.pdf")
     
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
@@ -110,8 +109,8 @@ do
             ;;
         *) 
             work="1"
-            arguments="$arguments \"$input_filename_with_path\"" #TODO: doesn't work for files with "`" caractere in namework="0"
-            arguments_alt="$arguments_alt,file://$input_filename_with_path"
+            arguments="$arguments \"$input\"" #TODO: doesn't work for files with "`" caractere in namework="0"
+            arguments_alt="$arguments_alt,file://$input"
             ;;
     esac
 done #TODO: check for size

@@ -98,7 +98,6 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    input_filename_with_path=$(readlink -f -- "$input")
     output=$(do_not_overwrite "$directory/joined.pdf")
 
     write_rights_outdir_check "$output"
@@ -108,7 +107,7 @@ do
     case $type in
         "pdf")
             work="pdf"
-            arguments="$arguments \"$input_filename_with_path\"" #TODO: doesn't work for files with "`" caractere in name
+            arguments="$arguments \"$input\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
         *) 
             work="0"

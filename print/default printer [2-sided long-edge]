@@ -104,6 +104,8 @@ for arg
 do
     # input/output
     input=$(readlink -f -- "$arg")
+    input_filename=$(basename -- "$input")
+
     type=$(file --mime-type -b -- "$input")
 
     case $type in

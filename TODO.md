@@ -16,7 +16,7 @@
 - [x] [shell double dash](http://linuxfr.org/users/yekcim/journaux/mes-nautilus-scripts#comment-1585344)
 - [x] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
 - [ ] progress bar (pv? dialog?)
-- [ ] home computer pdfimages 0.26.5 (ubuntu 14.10) / work computer 0.24.5 (ubuntu 14.04), -all option not available at work…
+- [ ] pdfimages 0.24.5 (ubuntu 14.04) -all option not available…
 
 # Scripts
 
@@ -40,7 +40,7 @@
 - [x] purge exif
 - [ ] display exif information
 - [ ] png optimisation (optipng,…)
-- [ ] [progressive jpg](https://coderwall.com/p/ryzmaa/use-imagemagick-to-create-optimised-and-progressive-jpgs)
+- [x] [progressive jpg](https://coderwall.com/p/ryzmaa/use-imagemagick-to-create-optimised-and-progressive-jpgs)
 - [x] extract pictures from odp, odt,…
 
 ## Videos
@@ -56,7 +56,7 @@
 ## Fonts
 - [ ] → ttf
 - [ ] → odf
-- [ ] → eot
+- [x] → eot
 - [ ] → woff
 - [ ] → svg
 - [ ] → webfont + css

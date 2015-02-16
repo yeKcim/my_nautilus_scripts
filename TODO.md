@@ -22,7 +22,7 @@
 
 # Misc scripts
 - [ ] diff between two files
-- [ ] pdfposter
+- [x] pdfposter
 - [x] clean dir (delete ~)
 - [ ] optical character recognition
 - [ ] pdf extract text

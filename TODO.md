@@ -17,13 +17,14 @@
 - [x] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
 - [ ] progress bar (pv? dialog?)
 - [ ] pdfimages 0.24.5 (ubuntu 14.04) -all option not available…
+- [ ] always use trash instead of rm?
 
 # Scripts
 
 # Misc scripts
 - [ ] diff between two files
 - [ ] pdfposter
-- [ ] clean dir (delete ~)
+- [x] clean dir (delete ~)
 - [ ] optical character recognition
 - [ ] pdf extract text
 - [x] pdf extract pictures

@@ -89,7 +89,8 @@ function write_rights_outdir_check {
 ################################################
 nb_files_check $# 1
 
-depend_check trash
+command="trash"
+hash "trash" 2>/dev/null || { notif >&2 "If you don't like rm command in script, install trash (trash-cli package)."; command="rm"; }
 
 for arg
 do
@@ -101,6 +102,8 @@ do
     
     write_rights_outdir_check "$dir_input"
 
-    find "$dir_input" -name "*~" -type f -exec trash -- {} \;    
+    if [[ "$command" != "rm" ]]; then find "$dir_input" -name "*~" -type f -exec trash -- {} \;
+    else find "$dir_input" -name "*~" -type f -exec rm -f -- {} \;
+    fi
     
 done

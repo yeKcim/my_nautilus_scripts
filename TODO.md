@@ -34,7 +34,7 @@
 - [ ] unoconv
 
 ## Pictures
-- [ ] autorotate pictures (apply exif + delete exif rotation)
+- [x] autorotate pictures (apply exif + delete exif rotation)
 - [ ] concatenate pictures → video
 - [x] rename from exif
 - [x] purge exif

@@ -17,7 +17,6 @@
 - [x] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
 - [ ] progress bar (pv? dialog?)
 - [ ] pdfimages 0.24.5 (ubuntu 14.04) -all option not available…
-- [ ] always use trash instead of rm?
 
 # Scripts
 
@@ -32,7 +31,7 @@
 - [ ] LaTeX
 - [ ] cbr/cbz
 - [x] send by mail
-- [ ] unoconv
+- [x] unoconv
 
 ## Pictures
 - [x] autorotate pictures (apply exif + delete exif rotation)
@@ -50,7 +49,7 @@
 - [ ] extract audio from video
 - [ ] convert video
 - [ ] concatenate video
-- [ ] send a file to xbmc
+- [ ] send a file to kodi, matchstick, chromekey
 - [ ] display exif information
 - [ ] videos rotation: if aconv doesn't work try another way
 

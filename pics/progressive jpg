@@ -106,7 +106,7 @@ do
     
     case $type in
         "jpeg") # input mimetype is supported
-            convert -strip -interlace Plane -quality 90 $input $output ;;
+            convert -strip -interlace Plane -quality 90 "$input" "$output" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

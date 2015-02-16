@@ -108,7 +108,7 @@ do
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
 
     if [ "$type" == "x-font-ttf" ] || [ "$type" == "vnd.ms-opentype" ]; then
-        mkeot $input > $output
+        mkeot "$input" > "$output"
     else ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
     fi
     

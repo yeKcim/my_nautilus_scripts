@@ -39,7 +39,7 @@
 - [x] rename from exif
 - [x] purge exif
 - [ ] display exif information
-- [ ] png optimisation (optipng,…)
+- [x] png optimisation (optipng,…)
 - [x] [progressive jpg](https://coderwall.com/p/ryzmaa/use-imagemagick-to-create-optimised-and-progressive-jpgs)
 - [x] extract pictures from odp, odt,…
 

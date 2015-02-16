@@ -13,7 +13,7 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 * work well in shell as in files managers ⇒ no use of *$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS* or *NEMO* equivalent
 * Direct use: No input box to ask how many, which orientation,…
 
-![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png) ![screenshot prompt](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot_prompt.png)
+![screenshot](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot.png) ![screenshot2](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot2.png) ![screenshot prompt](https://raw.githubusercontent.com/yeKcim/my_nautilus_scripts/master/screenshot_prompt.png)
 
 ## Less as possible
 

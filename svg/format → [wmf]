@@ -102,7 +102,7 @@ esac
 output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
 [ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
 
-depend_check inkscapeai
+depend_check inkscape
 
 directory="$(pwd)"
 mime_error=0; mime_error_file=""

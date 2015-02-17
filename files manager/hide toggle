@@ -97,7 +97,7 @@ do
     write_rights_outdir_check "$input"
     hidden_file="$dir_input/.hidden"
 
-    if [[ "${input_filename:0:1}" != "." ]]; then
+    if [[ "${input_filename:0:1}" != "." ]] && [[ "${input_filename: -1}" != "~" ]]; then
 
         if [[ -f "$hidden_file" ]]; then
             if [[ -w "$hidden_file" ]]; then
@@ -109,7 +109,7 @@ do
         else echo "$input_filename" > "$hidden_file"
         fi
 
-    else notif "Can't unhide \"$input_filename\" (name begins by dot)"
+    else notif "Can't unhide \"$input_filename\" (name begins by \".\" or finishes by \"~\")"
 
     fi
     

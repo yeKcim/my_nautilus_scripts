@@ -137,7 +137,8 @@ At the end of file use `error_check`
 
 ### Trash instead of rm
 
-Some scripts use `rm` for temp files i don't care about these but some other use `rm -f` for a lot of files ([clean backup files (*~)](https://github.com/yeKcim/my_nautilus_scripts/blob/master/files%20manager/clean%20backup%20files%20%28*~%29) for example). Some people don't like ′rm -f′ in script, so i can use trash ′command′. As I don't need to be trash dependent (I need that my script work without ′trash-cli′ package, I write: 
+Some scripts use `rm` for temp files i don't care about these but some other use `rm -f` for a lot of files ([clean backup files (*~)](https://github.com/yeKcim/my_nautilus_scripts/blob/master/files%20manager/clean%20backup%20files%20%28*~%29) for example). Some people don't like `rm -f` in script, so i can use `trash` command. As I don't need to be `trash-cli` dependent (I need that my script work without ′trash-cli′ package), I write: 
+
     hash "trash" 2>/dev/null && commandrm="trash" || { notif >&2 "If you don't like rm command in script, install trash (trash-cli package)."; commandrm="rm"; }
 
 ## Help check-list (for my own use)

@@ -122,14 +122,10 @@ do
         work="1"
     elif [ "$type" == "svg+xml" ]; then
         work="1"
-    else work="0"
+    else ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
     fi
     
-    if [[ $work != "0" ]]; then
-        inkscape -"$formatout" "$output" "$input"
-    else
-        ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
-    fi
+    [[ $work != "0" ]] &&  inkscape -"$formatout" "$output" "$input"
 done
 
 error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"

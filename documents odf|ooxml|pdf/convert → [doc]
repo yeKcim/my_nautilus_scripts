@@ -73,15 +73,10 @@ function error_check {
 ################################################
 #      error write rights notifications        #
 ################################################
-function write_rights_outdir_check {
+function writeout_right_check {
     out=$(readlink -f -- "$1")
     outdir="${out%/*}"
-    error="0"
-    if [[ ! -w "$outdir" ]]; then
-        notif "Can't write in \"$outdir\", check rights"
-        error="1"
-    fi
-    return $error
+    [[ ! -w "$outdir" ]] && echo "1" || echo "0"
 }
 
 ################################################
@@ -103,6 +98,7 @@ fi
 
 directory="$(pwd)"
 mime_error=0; mime_error_file=""
+writeout_error=0; writeout_error_file=""
 for arg
 do
     # input/output
@@ -112,7 +108,11 @@ do
     output_filename="${input_filename%.*}.$output_format"
     output_file=$(do_not_overwrite "$directory/$output_filename")
 
-    write_rights_outdir_check "$output_dir_temp"
+    if [[ $(writeout_right_check "$output_dir_temp") == "1" ]]; then
+        ((writeout_error++))
+        writeout_error_file="$writeout_error_file \"$input_filename\""
+        continue
+    fi
     
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     
@@ -149,3 +149,4 @@ do
 done
 
 error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"
+error_check "$#" "Can't write in output directory" "$writeout_error" "$writeout_error_file"

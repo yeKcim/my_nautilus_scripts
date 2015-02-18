@@ -73,15 +73,10 @@ function error_check {
 ################################################
 #      error write rights notifications        #
 ################################################
-function write_rights_outdir_check {
+function writeout_right_check {
     out=$(readlink -f -- "$1")
     outdir="${out%/*}"
-    error="0"
-    if [[ ! -w "$outdir" ]]; then
-        notif "Can't write in \"$outdir\", check rights"
-        error="1"
-    fi
-    return $error
+    [[ ! -w "$outdir" ]] && echo "1" || echo "0"
 }
 
 ################################################
@@ -96,6 +91,5 @@ chmod_arg=$argfromscriptname
 for arg
 do
     input=$(readlink -f -- "$arg")
-    write_rights_outdir_check "$input"
     chmod $chmod_arg -R -- "$input"
 done

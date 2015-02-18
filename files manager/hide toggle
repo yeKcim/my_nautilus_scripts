@@ -73,28 +73,30 @@ function error_check {
 ################################################
 #      error write rights notifications        #
 ################################################
-function write_rights_outdir_check {
+function writeout_right_check {
     out=$(readlink -f -- "$1")
     outdir="${out%/*}"
-    error="0"
-    if [[ ! -w "$outdir" ]]; then
-        notif "Can't write in \"$outdir\", check rights"
-        error="1"
-    fi
-    return $error
+    [[ ! -w "$outdir" ]] && echo "1" || echo "0"
 }
 
 ################################################
 #                    script                    #
 ################################################
 nb_files_check $# 1
+writeout_error=0; writeout_error_file=""
 
 for arg
 do
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
     dir_input=$(readlink -f $(dirname $input))
-    write_rights_outdir_check "$input"
+
+    if [[ $(writeout_right_check "$input") == "1" ]]; then
+        ((writeout_error++))
+        writeout_error_file="$writeout_error_file \"$input_filename\""
+        continue
+    fi
+
     hidden_file="$dir_input/.hidden"
 
     if [[ "${input_filename:0:1}" != "." ]] && [[ "${input_filename: -1}" != "~" ]]; then
@@ -114,6 +116,8 @@ do
     fi
     
 done
+
+error_check "$#" "Can't write in output directory" "$writeout_error" "$writeout_error_file"
 
 # clean hidden file
 sed -i '/^$/d' "$hidden_file" && sed -i '/./!d' "$hidden_file" # delete empty lines

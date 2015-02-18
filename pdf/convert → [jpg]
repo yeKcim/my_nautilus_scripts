@@ -98,7 +98,7 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    output_dir=$(do_not_overwrite "$directory/${input_filename%.*}_$format")
+    output_dir=$(do_not_overwrite "$directory/${input_filename%.*}_$format") #TODO: if output_dir already exist, this script fall to create multiple files (file-0, file-2,…)
     output="$output_dir/${input_filename%.*}.$format"
 
     if [[ $(writeout_right_check "$directory") == "1" ]]; then

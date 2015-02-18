@@ -98,8 +98,8 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    output_dir=$(do_not_overwrite "$directory/${input_filename%.*}_$format")
-    output="$output_dir/${input_filename%.*}.$format"
+    output_dir=$(do_not_overwrite "$directory/${input_filename%.*}_$format") #TODO: if output_dir already exist, this script fall to create multiple files (file-0, file-2,…)
+    output=$(do_not_overwrite "$output_dir/${input_filename%.*}.$format")
 
     if [[ $(writeout_right_check "$directory") == "1" ]]; then
         ((writeout_error++))
@@ -111,7 +111,7 @@ do
 
     case $type in
         "pdf") # input mimetype is supported
-            mkdir "$output_dir"
+            [[ ! -d "$output_dir" ]] && mkdir "$output_dir"
             convert -density 400 -- "$input" "$output" ;;
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
@@ -120,3 +120,4 @@ done
 
 error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"
 error_check "$#" "Can't write in output directory" "$writeout_error" "$writeout_error_file"
+

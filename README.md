@@ -5,7 +5,7 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 ## I need
 
 * easy way to copy and adapt script for another need
-* notifications (dependency errors or mime-type not supported)
+* notifications (write access error, dependency errors or not supported mime-type)
 * mime-type check with `file --mime-type -b "$input" | cut -d "/" -f2` (or f1 or no cut…) not ~~${arg##*.}~~ or ~~mimetype -bM "$arg"~~)
 * all texts in english (translations are difficult to maintain)
 * output ≠ input, never erase input!
@@ -19,10 +19,12 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 
 * click
 * dependencies
-* long texts notifications
+* very long texts notifications
 * subdirectories of subdirectories of scripts
 
-# Notifications
+## Some functions
+
+### Notifications
 
     ################################################
     #        notification depends of system        #
@@ -42,7 +44,7 @@ There is a lot of nautilus scripts all over the web. But a lot of these scripts 
 
 Example: `notif "Error: \"$arg\" mimetype is not supported"`
 
-## Dependencies check
+### Dependencies check
 
     ################################################
     #               dependency check               #
@@ -57,7 +59,7 @@ Example: `depend_check pdftk convert`
 
 Dependencies check will be done for each mime-type that need different softwares if needed. If not check at the begining of script
 
-## Do not overwrite any file
+### Do not overwrite any file
 
     ################################################
     #         do not overwrite with output         #
@@ -73,7 +75,7 @@ Dependencies check will be done for each mime-type that need different softwares
 
 Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
 
-## Check if user has selected enough files
+### Check if user has selected enough files
 
     ################################################
     #          check if input files > min          #
@@ -89,7 +91,7 @@ Example: `output_dir=$(do_not_overwrite "${input_filename}_explode")`
 
 Example: `nb_files_check $# 2` for a script that need at least 2 inputs
 
-## Mimetype errors notification
+### Errors notification
 
 Avoid multiple notifications for mimetype errors:
 
@@ -112,12 +114,39 @@ Avoid multiple notifications for mimetype errors:
 
 Example: `error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"`
 
+Avoid multiple notifications for write output directory errors:
+
+    ################################################
+    #      error write rights notifications        #
+    ################################################
+    function writeout_right_check {
+        out=$(readlink -f -- "$1")
+        outdir="${out%/*}"
+        [[ ! -w "$outdir" ]] && echo "1" || echo "0"
+    }
+
+In the loop:
+
+    if [[ $(writeout_right_check "$output_dir") == "1" ]]; then
+        ((writeout_error++))
+        writeout_error_file="$writeout_error_file \"$input_filename\""
+        continue
+    fi
+    
+At the end of file use `error_check`
+
+### Trash instead of rm
+
+Some scripts use `rm` for temp files i don't care about these but some other use `rm -f` for a lot of files ([clean backup files (*~)](https://github.com/yeKcim/my_nautilus_scripts/blob/master/files%20manager/clean%20backup%20files%20%28*~%29) for example). Some people don't like ′rm -f′ in script, so i can use trash ′command′. As I don't need to be trash dependent (I need that my script work without ′trash-cli′ package, I write: 
+    hash "trash" 2>/dev/null && commandrm="trash" || { notif >&2 "If you don't like rm command in script, install trash (trash-cli package)."; commandrm="rm"; }
+
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)
 * [Structures de contrôle (fr)](http://aral.iut-rodez.fr/fr/sanchis/enseignement/bash/ar01s10.html)
 * [Opérateurs de comparaison (fr)](http://abs.traduc.org/abs-fr/ch07s03.html)
 * [Quelques bonnes pratiques](http://ineumann.developpez.com/tutoriels/linux/bash-bonnes-pratiques/)
+
 
 ## How to copy these files…
 

@@ -96,9 +96,9 @@ do
     elif [[ -f "$input" ]]; then dir_input=$(readlink -f $(dirname $input))
     fi
     
-    if [[ $(writeout_right_check "$dir_input") == "1" ]]; then
+    if [[ $(writeout_right_check "$dir_input/my_function_is_bad") == "1" ]]; then
         ((writeout_error++))
-        writeout_error_file="$writeout_error_file \"$input_filename\""
+        writeout_error_file="$writeout_error_file \"$dir_input\""
         continue
     fi
     

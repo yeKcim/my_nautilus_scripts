@@ -24,8 +24,8 @@
 - [ ] diff between two files
 - [x] pdfposter
 - [x] clean dir (delete ~)
-- [ ] optical character recognition
-- [ ] pdf extract text
+- [x] optical character recognition
+- [x] pdf extract text
 - [x] pdf extract pictures
 - [ ] display mime-type information
 - [ ] LaTeX

@@ -95,7 +95,7 @@ do
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
 
-    if [[ $(writeout_right_check "~/.fonts/") == "1" ]]; then
+    if [[ $(writeout_right_check "$HOME/.fonts/$input_filename") == "1" ]]; then
         ((writeout_error++))
         writeout_error_file="$writeout_error_file \"$input_filename\""
         continue

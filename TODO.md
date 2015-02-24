@@ -8,15 +8,15 @@
 - [x] check if output already exist, if so, increment name
 - [x] if a lot of files have bad mimetype, only display one global notif
 - [ ] more checks
-    - [x] rights: write in output dir
     - [ ] rights: read input
-    - [ ] if input exists (in shell can input a file that not exist)
+    - [ ] if input exists: in shell can input a file that not exist, in nautilus right clic on a file, a process delete file, run the script, what happens?
     - [x] if output already exist (don't overwrite)
     - [ ] if output is done after execution
 - [x] [shell double dash](http://linuxfr.org/users/yekcim/journaux/mes-nautilus-scripts#comment-1585344)
 - [x] [avoid which](http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212#677212) (thank you #bash@freenode chan)
 - [ ] progress bar (pv? dialog?)
 - [ ] pdfimages 0.24.5 (ubuntu 14.04) -all option not available…
+- [ ] actual ouput write rights check is bad, replace it. no more pwd (if not in prompt). Usage : 1. if in prompt pwd, 2. input dir, 3. $HOME (+notif to explain where is output), 4. /tmp (+notif to explain where is output), 5. Notification to explain that no dir with write has been avalaible
 
 # Scripts
 

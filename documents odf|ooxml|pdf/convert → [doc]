@@ -128,6 +128,7 @@ do
         "vnd.oasis.opendocument.text"|"vnd.oasis.opendocument.presentation"|"vnd.oasis.opendocument.spreadsheet"|"vnd.oasis.opendocument.graphics") work="1" ;; # odt|odp|ods
         "msword"|"vnd.ms-excel"|"vnd.ms-powerpoint") work="1" ;;
         "pdf") work="1" ;;
+        "zip") [[ $(file --mime-type -bz -- "$input") == "application/xml" ]] && work="1" ;;
         *) work="0" ;; # input mimetype is not supported
     esac
     

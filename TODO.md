@@ -32,6 +32,7 @@
 - [ ] cbr/cbz
 - [x] send by mail
 - [x] unoconv
+- [ ] export-text-to-path for PS, EPS, PDF ou SVG with -T option
 
 ## Pictures
 - [x] autorotate pictures (apply exif + delete exif rotation)

@@ -32,6 +32,8 @@
 - [ ] cbr/cbz
 - [x] send by mail
 - [x] unoconv
+- [ ] lowercase → echo TEST | tr A-Z a-z (what about éàïù…)
+- [ ] caps → echo test | tr a-z A-Z (what about éàïù…)
 
 ## Pictures
 - [x] autorotate pictures (apply exif + delete exif rotation)
@@ -52,6 +54,7 @@
 - [ ] send a file to kodi, matchstick, chromekey
 - [ ] display exif information
 - [ ] videos rotation: if aconv doesn't work try another way
+- [ ] qtdump SANY0072.MP4 | strings | grep time
 
 ## Fonts
 - [ ] → ttf

@@ -32,8 +32,12 @@
 - [ ] cbr/cbz
 - [x] send by mail
 - [x] unoconv
+<<<<<<< HEAD
 - [ ] lowercase → echo TEST | tr A-Z a-z (what about éàïù…)
 - [ ] caps → echo test | tr a-z A-Z (what about éàïù…)
+=======
+- [ ] export-text-to-path for PS, EPS, PDF ou SVG with -T option
+>>>>>>> 120fdc6f5ef6188d6f75b50ae0528759460bcb7e
 
 ## Pictures
 - [x] autorotate pictures (apply exif + delete exif rotation)

@@ -105,12 +105,13 @@ do
     case $type in # input mimetype is supported
         "octet-stream") # can't find from mime-type use extension
             case "${input##*.}" in
-                    "docx") unzip -j "$input" "word/media/*" -d "$output_dir" ;;
-                    "xlsx") unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
-                    "pptx") unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;
-                    "odt"|"ods"|"odp") unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
+                    "docx") depend_check unzip; unzip -j "$input" "word/media/*" -d "$output_dir" ;;
+                    "xlsx") depend_check unzip; unzip -j "$input" "xl/media/*" -d "$output_dir" ;;
+                    "pptx") depend_check unzip; unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;
+                    "odt"|"ods"|"odp") depend_check unzip; unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
                     *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
             esac ;;
+        "zip") [[ $(file --mime-type -bz -- "$input") == "application/xml" ]] && depend_check unzip && unzip -j "$input" "Pictures/*" -d "$output_dir" ;;
         "vnd.openxmlformats-officedocument.presentationml.presentation") # pptx
             depend_check unzip
             unzip -j "$input" "ppt/media/*" -d "$output_dir" ;;

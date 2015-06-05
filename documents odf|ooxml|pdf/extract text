@@ -112,6 +112,7 @@ do
                     "doc"|"xls"|"ppt") command="unoconv" ;;
                     *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
             esac ;;
+        "zip") [[ $(file --mime-type -bz -- "$input") == "application/xml" ]] && command="unoconv" ;;
         "vnd.openxmlformats-officedocument.presentationml.presentation") command="unoconv" ;; # pptx
         "vnd.openxmlformats-officedocument.wordprocessingml.document") command="unoconv" ;; # docx
         "vnd.openxmlformats-officedocument.spreadsheetml.sheet") command="unoconv" ;; # xlsx
@@ -120,6 +121,9 @@ do
         "pdf")
             depend_check pdftotext
             pdftotext -layout "$input" "$output" ;;
+        "rtf")
+            depend_check unrtf
+            unrtf --text "$input" | cat >> "$output" ;;    
         *) # input mimetype is not supported
             ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac

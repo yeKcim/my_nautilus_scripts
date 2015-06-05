@@ -141,6 +141,31 @@ Some scripts use `rm` for temp files i don't care about these but some other use
 
     hash "trash" 2>/dev/null && commandrm="trash" || { notif >&2 "If you don't like rm command in script, install trash (trash-cli package)."; commandrm="rm"; }
 
+### Not used: output directory ###
+
+I've create a function to find a directory with write access in case that default one hasn't. Will I use it? Don't know…
+
+    ################################################
+    #                  outputdir                   #
+    ################################################
+    function defineoutputdir {                                          # the_inputfile or the inputdirectory
+        out=$(readlink -f -- "$1")
+        outdir="${out%/*}"                                              # if not in shell, default output directory is input one
+        redir=0
+        if [ $(env | grep '^TERM') ]; then                              # if in shell, default output directory is pwd
+            [[ -w "$(pwd)" ]] && outdir="$(pwd)" && redir=0 || redir=1  # if no write access to pwd, output is input directory
+        fi
+        [[ ! -w "$outdir" ]] && outdir="$HOME/" && redir=1              # if no write access to default dir, output is home dir
+        [[ ! -w "$outdir" ]] && outdir="/tmp/"  && redir=1              # if no write access to default dir or ~, output is /tmp
+        [[ ! -w "$outdir" ]] && outdir=""       && redir=2              # if no write access to default dir or ~ or /tmp ⇒ wtf?
+        echo $outdir
+        return $redir                                                   # 0 if default outdir, 1 if redirect, 2 if no write access
+    }
+    
+    odir=$(defineoutputdir "$1")                                        # odir = output directory
+    odir_redir=$?  
+
+
 ## Help check-list (for my own use)
 
 * [Variables shell (fr)](http://michel.mauny.net/sii/variables-shell.html)

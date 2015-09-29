@@ -56,6 +56,7 @@
 - [ ] display exif information
 - [ ] videos rotation: if aconv doesn't work try another way
 - [ ] qtdump SANY0072.MP4 | strings | grep time
+- [ ] sbs → anaglyph
 
 ## Fonts
 - [ ] → ttf

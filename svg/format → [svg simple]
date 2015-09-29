@@ -89,13 +89,19 @@ case $argfromscriptname in
     "emf") formatout="M";;
     "eps") formatout="E";;
     "pdf") formatout="A";;
+    "pdf txt to path") formatout="A";; 
     "svg simple") formatout="l";;
     "wmf") formatout="m";;
     *) formatout="A";;
 esac
 
+
+# what will be extension
 output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
+# special case for svg simple
 [ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
+# special case for pdf txt to path
+[ $argfromscriptname == "pdf txt to path" ] && texttopath="-T"; output_ext="txt2path.pdf" || texttopath=""
 
 depend_check inkscape
 
@@ -125,7 +131,7 @@ do
     else ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
     fi
     
-    [[ $work != "0" ]] &&  inkscape -"$formatout" "$output" "$input"
+    [[ $work != "0" ]] &&  inkscape $texttopath -"$formatout" "$output" "$input"
 done
 
 error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"

@@ -6,7 +6,7 @@
     # Nemo:     copy this file in ~/.gnome2/nemo-scripts/          and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
 # Dependency: mkeot
-# Convert font to eot
+# Convert font to eot (from eot-utils)
 IFS="
 "
 ################################################

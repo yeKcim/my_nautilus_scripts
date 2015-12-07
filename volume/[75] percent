@@ -85,7 +85,7 @@ function writeout_right_check {
 nb_files_check $# 1
 
 # Volume?
-argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)%\].*/\1/p')
+argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 volume=$argfromscriptname/100
 
 mime_error=0; mime_error_file=""

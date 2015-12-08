@@ -96,7 +96,7 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    output=$(do_not_overwrite "$directory/${input_filename%.*}_vol$argfromscriptname%.${input_filename##*.}")
+    output=$(do_not_overwrite "$directory/${input_filename%.*}_vol$argfromscriptname.${input_filename##*.}")
 
     if [[ $(writeout_right_check "$output") == "1" ]]; then
         ((writeout_error++))

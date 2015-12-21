@@ -101,7 +101,7 @@ output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
 # special case for svg simple
 [ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
 # special case for pdf txt to path
-[ $argfromscriptname == "pdf txt to path" ] && texttopath="-T"; output_ext="txt2path.pdf" || texttopath=""
+[ $argfromscriptname == "pdf txt to path" ] && texttopath="-T" || texttopath=""
 
 depend_check inkscape
 
@@ -113,7 +113,7 @@ do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-    output=$(do_not_overwrite "$directory/${input_filename%.*}.$output_ext")
+    output=$(do_not_overwrite "$directory/${input_filename%.*}$texttopath.$output_ext")
 
     if [[ $(writeout_right_check "$output") == "1" ]]; then
         ((writeout_error++))

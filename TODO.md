@@ -51,7 +51,7 @@
 - [ ] include subtitle
 - [ ] extract audio from video
 - [ ] convert video
-- [ ] concatenate video
+- [ ] concatenate video (mkvmerge -o out.mkv in…)
 - [ ] send a file to kodi, matchstick, chromekey
 - [ ] display exif information
 - [ ] videos rotation: if aconv doesn't work try another way

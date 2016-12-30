@@ -35,6 +35,7 @@
 - [ ] lowercase → echo TEST | tr A-Z a-z (what about éàïù…)
 - [ ] caps → echo test | tr a-z A-Z (what about éàïù…)
 - [ ] export-text-to-path for PS, EPS, PDF ou SVG with -T option
+- [ ] shnsplit -o flac *.flac -f *.cue -t '%p - %a - %n.%t'
 
 ## Pictures
 - [x] autorotate pictures (apply exif + delete exif rotation)

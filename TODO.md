@@ -17,6 +17,7 @@
 - [ ] progress bar (pv? dialog?)
 - [ ] pdfimages 0.24.5 (ubuntu 14.04) -all option not available…
 - [ ] actual ouput write rights check is bad, replace it. no more pwd (if not in prompt). Usage : 1. if in prompt pwd, 2. input dir, 3. $HOME (+notif to explain where is output), 4. /tmp (+notif to explain where is output), 5. Notification to explain that no dir with write has been avalaible
+- [ ] some good idea: http://www.omgubuntu.co.uk/2016/07/useful-pack-nautilus-scripts
 
 # Scripts
 
@@ -66,4 +67,7 @@
 - [ ] → woff
 - [ ] → svg
 - [ ] → webfont + css
+
+## PDF
+- [ ] convert -density 170x170 -quality 25 -compress jpeg input.pdf output.pdf # sometimes better than pdftk…
 

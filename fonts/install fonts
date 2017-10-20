@@ -5,7 +5,7 @@
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo:     copy this file in ~/.gnome2/nemo-scripts/          and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
-# move fonts to ~/.fonts directory
+# move fonts to ~/.local/share/fonts directory
 IFS="
 "
 ################################################
@@ -81,10 +81,11 @@ function writeout_right_check {
 ################################################
 #                    script                    #
 ################################################
+FONTDIR="$HOME/.local/share/fonts"
 nb_files_check $# 1
-#  Create directory ~/.fonts if doesn't exist, what if rights are not good?
-if [[ ! -a ~/.fonts ]]; then
-    mkdir -p ~/.fonts
+#  Create directory $FONTDIR if doesn't exist, what if rights are not good?
+if [[ ! -a $FONTDIR ]]; then
+    mkdir -p $FONTDIR
 fi
 
 mime_error=0; mime_error_file=""
@@ -95,7 +96,7 @@ do
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
 
-    if [[ $(writeout_right_check "$HOME/.fonts/$input_filename") == "1" ]]; then
+    if [[ $(writeout_right_check "$FONTDIR/$input_filename") == "1" ]]; then
         ((writeout_error++))
         writeout_error_file="$writeout_error_file \"$input_filename\""
         continue
@@ -105,12 +106,12 @@ do
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     case $type in
         "x-font-ttf" | "vnd.ms-opentype") # input mimetype is supported
-            if [[ -f ~/.fonts/$input_filename ]]; then
+            if [[ -f $FONTDIR/$input_filename ]]; then
                 notif "\"$input_filename\" already installed."
             else
-                cp -- "$input" ~/.fonts
+                cp -- "$input" $FONTDIR
                 # does script worked fine?
-                if [[ -f ~/.fonts/$input_filename ]]; then notif "\"$input_filename\" installed."
+                if [[ -f $FONTDIR/$input_filename ]]; then notif "\"$input_filename\" installed."
                 else notif "Error: Cannot install \"$input_filename\"."
                 fi
             fi ;;

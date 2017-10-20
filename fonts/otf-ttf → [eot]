@@ -5,8 +5,8 @@
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo:     copy this file in ~/.gnome2/nemo-scripts/          and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
-# Dependency: mkeot
-# Convert font to eot (from eot-utils)
+# Dependency: mkeot (from eot-utils)
+# Convert font to eot
 IFS="
 "
 ################################################

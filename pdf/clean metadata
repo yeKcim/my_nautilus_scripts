@@ -111,10 +111,12 @@ do
 		exiftool -all:all= $input.clean.pdf
 		exiftool -all:all $input.clean.pdf
 		exiftool -extractEmbedded -all:all $input.clean.pdf
-		qpdf --linearize $input.clean.pdf $output.pdf
+		qpdf --linearize $input.clean.pdf $output
 		pdftk $output.pdf dump_data
 		exiftool $output.pdf 
-		rm -f $input.clean.pdf ;;
+		rm -f $input.clean.pdf_original
+		rm -f $input.clean.pdf
+		;;
         *) ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
     esac
 done

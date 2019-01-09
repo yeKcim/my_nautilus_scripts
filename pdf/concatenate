@@ -111,9 +111,9 @@ do
             arguments="$arguments \"$input\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
         *) 
-            work="0"
-            notif "Error: \"$input_filename\" mimetype is not supported"
-            exit 1
+            #work="0"
+            #notif "Error: \"$input_filename\" mimetype is not supported"
+            #exit 1
             ;; #TODO: if input is not pdf, it's probably possible to convert it in pdf first…
     esac
     

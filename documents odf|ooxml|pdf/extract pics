@@ -3,7 +3,7 @@
 # License: GNU General Public License V3, 29 June 2007
 # Installation:
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
-    # Nemo:     copy this file in ~/.gnome2/nemo-scripts/          and chmod +x it
+    # Nemo:     copy this file in ~/.local/share/nemo/scripts/     and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
 # Dependency: unzip or pdfimages (from poppler-utils)
 # extract pics from opendocument or pdf (no msoffice support actually)

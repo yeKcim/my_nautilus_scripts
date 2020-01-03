@@ -5,7 +5,7 @@
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo:     copy this file in ~/.local/share/nemo/scripts/     and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
-# Dependency: pdftk
+# Dependencies: pdftk, img2pdf
 # Concatenate multiple pdf in one
 IFS="
 "
@@ -85,11 +85,13 @@ function writeout_right_check {
 nb_files_check $# 2
 
 depend_check pdftk
+depend_check img2pdf
 
 writeout_error=0; writeout_error_file=""
 
 directory="$(pwd)"
 arguments=""
+tmp=""
 for arg
 do
     # input/output
@@ -110,6 +112,14 @@ do
             work="pdf"
             arguments="$arguments \"$input\"" #TODO: doesn't work for files with "`" caractere in name
             ;;
+        "jpeg" | "jpg" | "png" | "bmp" | "gif")
+            img2pdf --output "$input_filename.TMP.pdf" "$input_filename" # create tmp converted files of images 
+            input="$input.TMP.pdf"
+            input_filename="$input_filename.TMP.pdf"
+            work="pdf"
+            arguments="$arguments \"$input\"" #TODO: doesn't work for files with "`" caractere in name
+            tmp="$tmp \"$input\"" # keep a list of tmp files to remove
+            ;;
         *) 
             #work="0"
             #notif "Error: \"$input_filename\" mimetype is not supported"
@@ -122,8 +132,12 @@ done
 # inputs mimetype are supported
 if [[ $work != "0" ]]; then
     if [ -n "$arguments" ]; then
-        eval pdftk "$arguments" cat output "$output" #TODO: check if exist, check rights"
+        eval pdftk $arguments output \"$output\" #TODO: check if exist, check rights"
     fi
+fi
+
+if [ -n "$tmp" ]; then
+    eval rm $tmp # remove tmp files
 fi
 
 error_check "$#" "Can't write in output directory" "$writeout_error" "$writeout_error_file"

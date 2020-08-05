@@ -105,7 +105,7 @@ do
         writeout_error_file="$writeout_error_file \"$input_filename\""
         continue
     fi
-      
+  
     type=$(file --mime-type -b -- "$input" | cut -d "/" -f2)
     typez=$(file --mime-type -bz "$input" | cut -d "/" -f2)    
 
@@ -118,12 +118,12 @@ do
     
     if [[ $work != "0" ]]; then
         if [[ $format == "png" ]]; then
-	        inkscape -d "$resolution" -e "$output" "$input"        
+	        inkscape -d "$resolution" --export-type=png -o "$output" "$input"       
         else
             depend_check convert
             fifo_file="${output}_fifo.png"
 	        mkfifo "$fifo_file"
-	        inkscape -d "$resolution" -e "$fifo_file" "$input" < /dev/null &
+	        inkscape -d "$resolution" --export-type=png -o "$fifo_file" "$input" < /dev/null &
 	        convert "$fifo_file" -background white -flatten "$output"
 	        rm -f "$fifo_file"
         fi

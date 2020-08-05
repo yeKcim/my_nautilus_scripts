@@ -86,19 +86,20 @@ nb_files_check $# 1
 # conversion type?
 argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
 case $argfromscriptname in
-    "emf") formatout="M";;
-    "eps") formatout="E";;
-    "pdf") formatout="A";;
-    "pdf txt to path") formatout="A";; 
-    "svg simple") formatout="l";;
-    "wmf") formatout="m";;
-    *) formatout="A";;
+    "emf") formatout="emf";;
+    "eps") formatout="eps";;
+    "pdf") formatout="pdf";;
+    "pdf txt to path") formatout="pdf";; 
+    "svg simple") formatout="svg";;
+    "wmf") formatout="wmf";;
+    *) formatout="pdf";;
 esac
 
 
 # what will be extension
 output_ext=$(echo "$argfromscriptname" | cut -d ' ' -f 1)
 # special case for svg simple
+[ $output_ext == "svg" ] && svgsimple="--export-plain-svg" || svgsimple=""
 [ $output_ext == "svg" ] && output_ext="simple.svg" || output_ext=$output_ext
 # special case for pdf txt to path
 [ $argfromscriptname == "pdf txt to path" ] && texttopath="-T" || texttopath=""
@@ -131,7 +132,7 @@ do
     else ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\""
     fi
     
-    [[ $work != "0" ]] &&  inkscape $texttopath -"$formatout" "$output" "$input"
+    [[ $work != "0" ]] && inkscape $texttopath $svgsimple --export-type="$formatout" -o "$output" "$input"
 done
 
 error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"

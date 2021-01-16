@@ -181,7 +181,7 @@ I've create a function to find a directory with write access in case that defaul
     git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
 
 ### … in nemo?
-    cd ~/.gnome2/nemo-scripts/
+    cd ~/.local/share/nemo/scripts/
     git clone https://github.com/yeKcim/my_nautilus_scripts.git scripts
     
 ### … in caja?

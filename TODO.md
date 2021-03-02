@@ -52,6 +52,13 @@
 - [ ] download subtitle
 - [ ] include subtitle
 - [ ] extract audio from video
+```
+ffmpeg -i foo.mkv 2>&1 | grep -A1 Audio
+ffmpeg -i foo.mkv -vn -acodec copy audio.ogg
+ffmpeg -i foo.mkv -vn -acodec copy audio.mp3
+ffmpeg -i foo.mkv -vn -acodec copy audio.aac …
+```
+
 - [ ] convert video
 - [ ] concatenate video (mkvmerge -o out.mkv in…)
 - [ ] send a file to kodi, matchstick, chromekey

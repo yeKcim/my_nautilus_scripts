@@ -116,8 +116,9 @@ do
                 convert -density 600 -- "$input" "$output"
                 for image in $(ls "$output_dir"); do
                     /usr/bin/tesseract "$output_dir/$image" "$output_dir/${image%.*}" -l $lang pdf
-                    rm -f "$output_dir/$image"
                 done
+                eval pdftk "$output_dir/*.pdf" output \"${input_filename%.*}_ocr.pdf\"
+                rm -rf "$output_dir/"
             else
                 ((mime_error++));
                 mime_error_file="$mime_error_file \"$input_filename\""

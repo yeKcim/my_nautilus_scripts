@@ -5,8 +5,8 @@
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo:     copy this file in ~/.local/share/nemo/scripts/     and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
-# Dependency: convert (from imagemagick)
-# Convert pictures format
+# Dependency: ffmpeg
+# Concatenate 1 video and 1 sound in a video for a twitter share
 IFS="
 "
 ################################################

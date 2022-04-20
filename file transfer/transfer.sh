@@ -5,8 +5,8 @@
     # Nautilus: copy this file in ~/.local/share/nautilus/scripts/ and chmod +x it
     # Nemo:     copy this file in ~/.local/share/nemo/scripts/     and chmod +x it
     # Caja:     copy this file in ~/.config/caja/scripts/          and chmod +x it
-# Dependency: convert (from imagemagick), tesseract-ocr and tesseract-ocr-eng
-# Convert PDF into pictures
+# Dependencies: pdftk, img2pdf
+# Concatenate multiple pdf in one
 IFS="
 "
 ################################################
@@ -84,51 +84,59 @@ function writeout_right_check {
 ################################################
 nb_files_check $# 1
 
-# language?
-argfromscriptname=$(echo "$0" | sed -n 's/.*\[\(.*\)\].*/\1/p')
-lang=$argfromscriptname
+depend_check zip
+depend_check curl
 
-depend_check convert tesseract # Have to check if language is already installed
+writeout_error=0; writeout_error_file=""
 
 directory="$(pwd)"
-mime_error=0; mime_error_file=""
-writeout_error=0; writeout_error_file=""
+arguments=()
+tmp=""
+
+
 for arg
 do
     # input/output
     input=$(readlink -f -- "$arg")
     input_filename=$(basename -- "$input")
-
-    if [[ $(writeout_right_check "$directory") == "1" ]]; then
-        ((writeout_error++))
-        writeout_error_file="$writeout_error_file \"$input_filename\""
-        continue
-    fi
-
-    type=$(file --mime-type -b -- "$input")
-
-    case ${type%/*} in
-        "application") # input mimetype is pdf
-            if [[ ${type##*/} == "pdf" ]]; then
-                output_dir=$(do_not_overwrite "$directory/${input_filename%.*}_ocr") #TODO: if output_dir already exist, this script fall to create multiple files (file-0, file-2,…)
-                output="$output_dir/${input_filename%.*}.png" 
-                mkdir "$output_dir"
-                convert -density 600 -- "$input" "$output"
-                for image in $(ls "$output_dir"); do
-                    /usr/bin/tesseract "$output_dir/$image" "$output_dir/${image%.*}" -l $lang pdf
-                    rm -f "$output_dir/$image"
-                done
-            else
-                ((mime_error++));
-                mime_error_file="$mime_error_file \"$input_filename\""
-            fi ;;
-        "image")# input is picture
-            output=$(do_not_overwrite "$directory/${input_filename%.*}.pdf")
-            /usr/bin/tesseract "$input" "${output%.*}" -l $lang pdf ;;
-        *) # input mimetype is not supported
-            ((mime_error++)); mime_error_file="$mime_error_file \"$input_filename\"" ;;
-    esac
+    arguments+=("${input##*/}")
 done
 
-error_check "$#" "Mimetype not supported" "$mime_error" "$mime_error_file"
+
+output=$(do_not_overwrite "$directory/Transfer.sh.zip")
+outputlog=$(do_not_overwrite "$directory/Transfer.sh.log")
+tmp="$output $outputlog"
+
+    if [[ $(writeout_right_check "$output") == "1" ]]; then
+        ((writeout_error++))
+        writeout_error_file="$writeout_error_file \"$directory\""
+        break
+    fi
+
+    
+
+zip -r $output ${arguments[@]} &
+	ZIP_PID=$!
+	while kill -0 $ZIP_PID ; do
+	    echo "Process active"
+	    sleep 1
+	    done 
+    
+curl -sD - --upload-file "${output##*/}" https://transfer.sh/"${output##*/}" > "$outputlog" &
+	ZIP_PID=$!
+	echo $ZIP_PID
+		while kill -0 $ZIP_PID ; do
+	    echo "Process active"
+	    sleep 1
+		done
+
+			addr=$(cat ${outputlog}| tail -1)
+	to=$(cat ${outputlog}| grep 'x-url-delete')
+	
+	thunderbird -compose "subject='File transfer',body=%0d%0a%0d%0a%0d%0a%0d%0a%0d%0a%0d%0aDownload%20link:%20${addr}%0d%0a%0d%0a--------------------%0d%0a%0d%0a(%20Deletion%20token%20to%20remove%20file%20from%20server:%20${to##*/}%20)"
+	
+if [ -n "$tmp" ]; then
+    eval rm $tmp # remove tmp files
+fi
+
 error_check "$#" "Can't write in output directory" "$writeout_error" "$writeout_error_file"

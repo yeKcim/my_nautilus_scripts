@@ -10,7 +10,7 @@
 
 # HOW TO
 	# ```sh
-	# mkdir -p ${HOME}/.filesender && cd !:2
+	# mkdir -p ${HOME}/.filesender ; cd !:2
 	# curl https://filesender.renater.fr/clidownload.php > filesender.py
 	# curl https://filesender.renater.fr/clidownload.php?config=1 > filesender.py.ini
 	# ```
